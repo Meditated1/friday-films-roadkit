@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FryDay Films Road Atlas — Salina → Leesburg (Geographic Plate · offline)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Saira+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E7DABA;--paper-hi:#F0E6CB;--paper-lo:#D4BF96;--edge:#C5AF82;
+    --ink:#2A241C;--ink-soft:#5C5240;--rule:#796A49;
+    --red:#B0392B;--red-deep:#872820;--cream:#F4EBD2;--seal:#7C2A20;--gold:#B08433;
+    --d1:#B0392B;--d2:#2E6B8A;--d3:#6E7A33;--d4:#C2461C;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:#3a3326;background-image:radial-gradient(circle at 50% 0%,#4a4131,#2c271d 80%);
+    font-family:"Spectral",serif;color:var(--ink);min-height:100vh;padding:24px 14px 50px;-webkit-font-smoothing:antialiased;}
+  .stage{max-width:1180px;margin:0 auto;}
+  .layout{display:grid;grid-template-columns:1fr 340px;gap:14px;align-items:start;}
+  @media(max-width:920px){.layout{grid-template-columns:1fr;}}
+  .plate{position:relative;border-radius:5px;overflow:hidden;
+    background:radial-gradient(120% 90% at 30% 10%,var(--paper-hi),transparent 55%),radial-gradient(140% 120% at 85% 95%,var(--paper-lo),transparent 60%),var(--paper);
+    box-shadow:0 26px 60px -22px rgba(0,0,0,.7),0 2px 0 rgba(255,255,255,.15) inset;}
+  .plate svg{display:block;width:100%;height:auto;}
+  .ledger{position:relative;background:linear-gradient(180deg,#22405f,#1a3147);color:var(--cream);
+    border-top:3px double rgba(244,235,210,.4);display:flex;align-items:stretch;flex-wrap:wrap;font-family:"Saira Condensed",sans-serif;}
+  .ledger .seg{display:flex;flex-direction:column;justify-content:center;padding:11px 15px;border-right:1px solid rgba(244,235,210,.16);}
+  .ledger .lab{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#9fb8cf;margin-bottom:5px;}
+  .ledger .val{font-size:21px;font-weight:700;color:#F4EBD2;line-height:1;}
+  .ledger .val small{font-size:11px;font-weight:500;color:#9fb8cf;letter-spacing:.04em;}
+  .ledger .val.gold{color:#F0B43C;}
+  .dayfilter{display:flex;gap:5px;flex-wrap:wrap;}
+  .dayfilter button{font-family:"Saira Condensed",sans-serif;font-weight:700;font-size:13px;letter-spacing:.04em;
+    background:transparent;color:#cfe0f0;border:1.5px solid rgba(207,224,240,.4);border-radius:3px;padding:5px 10px;cursor:pointer;transition:.15s;}
+  .dayfilter button.on{color:#fff;}
+  .dayfilter button[data-d="1"].on{background:var(--d1);border-color:var(--d1);}
+  .dayfilter button[data-d="2"].on{background:var(--d2);border-color:var(--d2);}
+  .dayfilter button[data-d="3"].on{background:var(--d3);border-color:var(--d3);}
+  .dayfilter button[data-d="4"].on{background:var(--d4);border-color:var(--d4);}
+  .dayfilter button[data-d="all"].on{background:#7C2A20;border-color:#7C2A20;}
+  .dayfilter button:hover:not(.on){border-color:#fff;}
+  .stamp{margin:9px 14px;align-self:center;display:inline-flex;align-items:center;gap:8px;border:2px solid var(--cream);color:var(--cream);text-decoration:none;
+    font-family:"Saira Condensed";font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:9px 15px;border-radius:4px;transform:rotate(-1.2deg);transition:.15s;margin-left:auto;}
+  .stamp:hover{background:var(--cream);color:#1a3147;}
+  .stamp svg{width:15px;height:15px;}
+  .card{position:relative;background:var(--paper);border-radius:4px;box-shadow:0 14px 30px -22px rgba(0,0,0,.6);overflow:hidden;min-height:540px;}
+  .card .chead{background:linear-gradient(180deg,#22405f,#1a3147);color:var(--cream);padding:14px 16px;}
+  .card .chead .kick{font-family:"Saira Condensed";font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#9fb8cf;}
+  .card .chead h2{font-family:"Alfa Slab One",serif;font-size:21px;margin:3px 0 2px;line-height:1.05;}
+  .card .chead .meta{font-family:"Saira Condensed";font-size:12px;letter-spacing:.05em;color:#cfe0f0;}
+  .card .cbody{padding:13px 16px 20px;}
+  .card h3{font-family:"Saira Condensed";font-weight:700;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--red-deep);
+    margin:15px 0 7px;padding-bottom:4px;border-bottom:1px solid var(--edge);}
+  .card h3:first-child{margin-top:0;}
+  .card .hotel{padding:6px 0;border-bottom:1px dotted var(--edge);}
+  .card .hotel:last-child{border-bottom:none;}
+  .card .hotel .nm{font-family:"Spectral";font-weight:600;font-size:14px;color:var(--ink);}
+  .card .hotel .nm .pr{float:right;font-family:"Saira Condensed";font-weight:700;color:var(--red);}
+  .card .hotel .sub{font-family:"Saira Condensed";font-size:11.5px;color:var(--ink-soft);letter-spacing:.02em;}
+  .card ul{list-style:none;margin:0;padding:0;}
+  .card ul li{font-family:"Spectral";font-size:13px;color:var(--ink-soft);padding:4px 0;line-height:1.35;border-bottom:1px dotted var(--edge);}
+  .card ul li:last-child{border-bottom:none;}
+  .card ul li b{color:var(--ink);font-weight:600;}
+  .card .tag{display:inline-block;font-family:"Saira Condensed";font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    background:var(--cream);border:1px solid var(--edge);border-radius:3px;padding:1px 6px;margin:0 4px 0 0;color:var(--red-deep);}
+  .hint{font-family:"Saira Condensed";font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#b8a986;text-align:center;padding:10px;}
+  .caption{text-align:center;color:#b8a986;font-family:"Saira Condensed";font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin:16px 0 0;grid-column:1/-1;}
+  .ovd{display:flex;justify-content:space-between;font-family:"Spectral";font-size:14px;color:var(--ink-soft);padding:6px 0;border-bottom:1px dotted var(--edge);}
+  .ovd .nm{font-weight:600;color:var(--ink);}
+  .ovd .rt{font-family:"Saira Condensed";font-size:11px;color:var(--red-deep);letter-spacing:.05em;}
+  @keyframes pop{from{opacity:0;transform:scale(.4);}to{opacity:1;transform:scale(1);}}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="layout">
+    <div>
+      <div class="plate">
+        <div id="mapBox"></div>
+        <div class="ledger">
+          <div class="seg"><span class="lab" id="lDist">Distance</span><span class="val" id="vDist">1,555 <small>mi</small></span></div>
+          <div class="seg"><span class="lab" id="lDrive">Driving</span><span class="val" id="vDrive">~23.5 <small>hrs</small></span></div>
+          <div class="seg"><span class="lab">Tolls</span><span class="val gold">$0</span></div>
+          <div class="seg"><span class="lab" id="lFuel">Fuel · 2 vehicles</span><span class="val" id="vFuel">~$645</span></div>
+          <div class="seg"><span class="lab" id="lHotel">Hotels · 3 nts × 2 rm</span><span class="val" id="vHotel">~$796</span></div>
+          <div class="seg"><span class="lab">Highlight a leg</span>
+            <div class="dayfilter" id="dayfilter">
+              <button data-d="all" class="on">All</button>
+              <button data-d="1">D1</button><button data-d="2">D2</button><button data-d="3">D3</button><button data-d="4">D4</button>
+            </div>
+          </div>
+          <a class="stamp" id="driveit" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            Drive it
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="card" id="card"></div>
+  </div>
+  <div class="caption">FryDay Films Road Atlas · 2026 Centennial Edition · Geographic Plate (works offline) — tap any town pin · tap D1–D4 to declutter to one day</div>
+</div>
+
+<script>
+/* ---------- self-contained simplified state outlines (lng,lat) ---------- */
+const STATES=[
+ {name:"Kansas",ab:"KANSAS",ring:[[-102.05,40.00],[-94.60,40.00],[-94.60,37.00],[-102.05,37.00]]},
+ {name:"Missouri",ab:"MO.",ring:[[-95.77,40.58],[-91.20,40.38],[-90.70,39.45],[-90.10,38.85],[-89.50,37.98],[-89.49,37.00],[-89.69,36.50],[-89.69,36.00],[-90.15,36.00],[-90.15,36.50],[-94.62,36.50],[-94.62,39.10],[-95.10,39.55]]},
+ {name:"Oklahoma",ab:"OKLAHOMA",ring:[[-103.00,37.00],[-94.43,37.00],[-94.43,35.40],[-94.47,33.64],[-96.00,33.74],[-96.42,33.78],[-97.10,33.74],[-98.10,34.10],[-99.20,34.22],[-100.00,34.56],[-100.00,36.50],[-103.00,36.50]]},
+ {name:"Arkansas",ab:"ARKANSAS",ring:[[-94.62,36.50],[-90.15,36.50],[-90.07,35.80],[-90.45,35.40],[-90.30,34.90],[-91.07,34.05],[-91.17,33.01],[-94.04,33.02],[-94.47,33.64],[-94.62,35.40]]},
+ {name:"Tennessee",ab:"TENNESSEE",ring:[[-90.31,36.50],[-81.65,36.59],[-81.68,36.34],[-84.32,34.99],[-88.20,35.00],[-90.31,35.00],[-89.94,36.00],[-89.69,36.30]]},
+ {name:"Mississippi",ab:"MISS.",ring:[[-90.31,35.00],[-88.10,35.00],[-88.10,34.00],[-88.47,31.00],[-88.40,30.35],[-89.10,30.31],[-89.62,30.18],[-89.73,31.00],[-91.00,31.00],[-91.40,32.00],[-90.92,33.00],[-90.30,34.40]]},
+ {name:"Alabama",ab:"ALABAMA",ring:[[-88.20,35.00],[-85.00,35.00],[-85.18,32.87],[-84.89,32.26],[-85.05,31.52],[-85.00,31.00],[-87.60,31.00],[-88.02,30.69],[-88.10,30.22],[-88.47,31.00],[-88.10,34.00]]},
+ {name:"Georgia",ab:"GA.",ring:[[-85.61,34.98],[-83.11,35.00],[-83.32,34.79],[-82.90,34.49],[-81.49,33.01],[-80.84,32.03],[-81.13,31.70],[-81.40,30.71],[-82.20,30.57],[-84.86,30.71],[-85.00,31.00],[-85.05,31.52],[-84.89,32.26],[-85.18,32.87]]},
+ {name:"Florida",ab:"FLORIDA",ring:[[-87.60,31.00],[-85.00,31.00],[-84.86,30.71],[-82.20,30.57],[-82.05,30.36],[-81.50,30.70],[-81.30,29.40],[-80.95,28.50],[-80.55,27.50],[-80.10,26.50],[-80.36,25.20],[-80.90,25.15],[-81.10,25.20],[-81.80,26.00],[-82.20,26.70],[-82.55,27.50],[-82.70,28.20],[-82.80,29.00],[-83.17,29.66],[-84.36,30.06],[-85.00,29.70],[-86.40,30.40],[-87.20,30.30]]}
+];
+/* faint context neighbors (no labels) */
+const NEIGH=[
+ [[-103.00,36.50],[-100.00,36.50],[-100.00,34.56],[-99.20,34.22],[-98.10,34.10],[-97.10,33.74],[-96.42,33.78],[-96.00,33.74],[-94.47,33.64],[-94.04,33.02],[-94.04,31.00],[-99.50,31.00],[-103.00,32.00]], // TX-ish
+ [[-94.04,33.02],[-91.17,33.01],[-91.00,31.00],[-89.62,30.18],[-89.10,30.31],[-89.73,31.00],[-91.00,31.00],[-93.00,31.00],[-94.04,31.00]], // LA-ish
+ [[-91.51,40.20],[-87.80,38.10],[-88.10,37.00],[-89.49,37.00],[-90.10,38.85],[-90.70,39.45],[-91.20,40.38]] // IL-ish (small)
+];
+
+const W2=878,H2=748,PAD=34,U=40;
+const minLng=-103.5,maxLng=-79.5,minLat=24.0,maxLat=41.0;
+const cosM=Math.cos(32.5*Math.PI/180);
+const PX=lng=>PAD+(lng-minLng)*cosM*U;
+const PY=lat=>PAD+(maxLat-lat)*U;
+const project=ll=>[PX(ll[0]),PY(ll[1])];
+function ringPath(r){return "M"+r.map(p=>PX(p[0]).toFixed(1)+" "+PY(p[1]).toFixed(1)).join(" L")+" Z";}
+function centroid(r){let x=0,y=0;r.forEach(p=>{x+=p[0];y+=p[1];});return [x/r.length,y/r.length];}
+
+/* ---------- route + stop data ---------- */
+const CITIES=[
+ {n:"Salina",st:"KS",ll:[-97.61,38.84],kind:"start",day:1,
+   info:{kick:"Departure · Day 1",meta:"Friday, July 10, 2026",blurb:"Top off both tanks before you roll. Aim for a late-morning start so the baby naps through the first stretch."}},
+ {n:"Wichita",st:"KS",ll:[-97.34,37.69],day:1,
+   info:{kick:"Day 1 · waypoint",meta:"~90 mi in · I-135",
+     fuel:["<b>QuikTrip, Wichita</b> — last KS fuel, spotless restrooms, big lot"],
+     rest:["QuikTrip (~1.5 hrs in) — first diaper stop, easy on/off I-135"],
+     food:["Braum's (KS/OK regional) — burgers + fresh ice cream, fast & kid-friendly"]}},
+ {n:"Oklahoma City",st:"OK",ll:[-97.52,35.47],kind:"night",night:1,day:1,
+   info:{kick:"NIGHT 1 · Oklahoma City",meta:"~290 mi · ~4.5 hrs from Salina · I-40 @ Meridian",
+     hotels:[["Courtyard OKC Airport","Marriott · I-40 @ Meridian · bus/horse-trailer parking · Hotels.com",128],
+             ["Home2 Suites OKC Airport","Hilton · all-suite + kitchen · FREE breakfast · Hotels.com",132],
+             ["Fairfield Inn & Suites OKC","Marriott · FREE hot breakfast · indoor pool · Hotels.com",122]],
+     fuel:["<b>Perry, OK</b> (I-35 Exit 185) — Love's, top off (OK = cheapest, $3.74)","<b>Edmond, OK</b> — Pilot/OnCue before OKC"],
+     rest:["OK Welcome Center, I-35 SB mile 225 — 24/7 restrooms, pet/stretch area"],
+     food:["Cracker Barrel — Edmond (I-35 Exit 137) — big lot, high chairs"]}},
+ {n:"Little Rock",st:"AR",ll:[-92.29,34.75],day:2,
+   info:{kick:"Day 2 · waypoint",meta:"~300 mi into the longest leg · I-40",
+     fuel:["<b>N. Little Rock, AR</b> (I-40 Exit 161) — Pilot/Flying J, huge truck lot, easy trailer"],
+     rest:["Alma / Fort Smith, AR — AR Welcome Center, clean stretch (before Little Rock)"],
+     food:["Cracker Barrel / Chick-fil-A — Little Rock — reliable dinner ~2/3 of the way","Cracker Barrel — Alma (I-40 Exit 13) — mid-day sit-down reset"]}},
+ {n:"Memphis",st:"TN",ll:[-90.05,35.15],kind:"night",night:2,day:2,
+   info:{kick:"NIGHT 2 · Memphis EAST",meta:"~465 mi · ~7 hrs from OKC · Germantown Pkwy / I-40 Exit 16 (not downtown)",
+     hotels:[["Hilton Garden Inn Wolfchase","Hilton · I-40 Exit 16, Cordova · indoor saltwater pool · Hotels.com",130],
+             ["Hampton Inn & Suites Wolfchase","Hilton · patrolled lot · FREE hot breakfast · Hotels.com",130],
+             ["Courtyard Memphis Germantown","Marriott · indoor pool · Starbucks lobby · Hotels.com",125]],
+     fuel:["<b>Henryetta, OK</b> (I-40 Exit 237) — Love's, cheap OK fuel","<b>West Memphis, AR</b> (Exit 280) — Love's, last AR fuel, fill before TN"],
+     rest:["Sallisaw, OK (I-40 Exit 308) — travel center, deli + restrooms","West Memphis, AR — Love's, last stop before the river"],
+     food:["Whataburger (OK/AR) — fast, easy trailer parking"]}},
+ {n:"Tupelo",st:"MS",ll:[-88.70,34.26],day:3,
+   info:{kick:"Day 3 · waypoint",meta:"~110 mi from Memphis · I-22",
+     fuel:["<b>Tupelo, MS</b> (I-22 ~Exit 85) — Love's/Pilot, MS 2nd-cheapest ($3.81)"],
+     rest:["Byhalia/Holly Springs, MS — MS Welcome Center / Love's leaving Memphis","Tupelo — Love's + retail, diaper + lunch hub"],
+     food:["Cracker Barrel — Tupelo — clean, high chairs, mid-leg lunch"]}},
+ {n:"Birmingham",st:"AL",ll:[-86.81,33.52],day:3,
+   info:{kick:"Day 3 · waypoint",meta:"I-22 meets I-65 · turn south",
+     fuel:["<b>Birmingham, AL</b> (I-65) — Pilot/Flying J before the run south","Note: Buc-ee's Leeds (I-20) & Athens (I-65 N) are OFF your route — skip them"],
+     rest:["Pelham/Alabaster, AL (I-65) — Pilot/Love's before Montgomery"],
+     food:["Chick-fil-A — Birmingham — best fast-with-a-baby option","Jim 'N Nick's Bar-B-Q (Birmingham) — family-friendly, good parking"]}},
+ {n:"Montgomery",st:"AL",ll:[-86.30,32.37],kind:"night",night:3,day:3,
+   info:{kick:"NIGHT 3 · Montgomery",meta:"~330 mi · ~5 hrs from Memphis · East Blvd / I-85 EastChase",
+     hotels:[["Hampton Inn & Suites EastChase","Hilton · 4.7★ best of trip · FREE breakfast · huge lot · Hotels.com",140],
+             ["Hilton Garden Inn Montgomery East","Hilton · closest to East Blvd/I-65 · pool · Hotels.com",125],
+             ["Courtyard Montgomery (Carmichael)","Marriott · parking on 3 sides · outdoor pool · Hotels.com",120]],
+     fuel:["Top off here — long flat run to Florida ahead"],
+     rest:["EastChase retail center — clean, easy, stretch the baby's legs"],
+     food:["EastChase has Chick-fil-A & family chains right by the hotels"]}},
+ {n:"Dothan",st:"AL",ll:[-85.39,31.22],day:4,
+   info:{kick:"Day 4 · waypoint",meta:"~115 mi from Montgomery · US-231",
+     fuel:["<b>Dothan, AL</b> (US-231) — Love's/Pilot, last AL fuel before FL"],
+     rest:["Troy, AL (~1 hr in) — early diaper stop on the two-lane stretch","Cracker Barrel — Dothan — bathroom + stretch before I-10"],
+     food:["Cracker Barrel — Dothan (US-231) — first real meal of the day"]}},
+ {n:"Tallahassee",st:"FL",ll:[-84.28,30.44],day:4,
+   info:{kick:"Day 4 · waypoint",meta:"onto I-10 East · Florida",
+     rest:["FL Welcome Center, I-10 (Tallahassee/Madison) — clean, 24/7, stretch area"],
+     food:["Chick-fil-A — Tallahassee (off I-10) — fast & spotless"]}},
+ {n:"Lake City",st:"FL",ll:[-82.64,30.19],day:4,
+   info:{kick:"Day 4 · waypoint",meta:"I-10 meets I-75 · turn south for home",
+     fuel:["<b>Lake City, FL</b> (I-10/I-75 jct, Exit 427) — Love's, major truck stop","<b>Ocala, FL</b> (I-75 ~Exit 358) — Pilot/RaceTrac, final top-off"],
+     rest:["Lake City (I-75 Exit 427) — last big clean stop before the southbound run"],
+     food:["Cracker Barrel — Lake City (I-75 Exit 427) — late-lunch reset","Heads-up: Ocala Buc-ee's is NOT open yet (~2028). No Buc-ee's on this route."]}},
+ {n:"Leesburg",st:"FL",ll:[-81.88,28.81],kind:"end",day:4,
+   info:{kick:"Arrival · Home base",meta:"34407 Shadewood Circle, Leesburg, FL 34788 · ~470 mi from Montgomery",blurb:"I-75 South to Exit 329 (Wildwood, SR-44), then ~20 min of local roads to 34407 Shadewood Circle, Leesburg 34788. Toll-free the whole way — no Florida Turnpike. You made it. 🌿"}}
+];
+const DAYHEX={1:"#B0392B",2:"#2E6B8A",3:"#6E7A33",4:"#C2461C"};
+const SHIELDS=[[1,"I-35"],[2,"I-40"],[4,"I-22"],[6,"I-65"],[7,"US-231"],[9,"I-10"],[10,"I-75"]];
+/* every gas station (F) and rest stop (P) plotted on the map */
+const FUEL=[
+ {lab:"Wichita · QuikTrip",ll:[-97.34,37.55],day:1},
+ {lab:"Perry · Love's",ll:[-97.29,36.29],day:1},
+ {lab:"Edmond · Pilot/OnCue",ll:[-97.40,35.72],day:1},
+ {lab:"Henryetta · Love's",ll:[-95.98,35.44],day:2},
+ {lab:"N. Little Rock · Pilot",ll:[-92.18,34.82],day:2},
+ {lab:"W. Memphis · Love's",ll:[-90.33,35.20],day:2},
+ {lab:"Tupelo · Love's",ll:[-88.70,34.10],day:3},
+ {lab:"Birmingham · Pilot",ll:[-86.92,33.40],day:3},
+ {lab:"Dothan · Love's",ll:[-85.52,31.20],day:4},
+ {lab:"Lake City · Love's",ll:[-82.78,30.08],day:4},
+ {lab:"Ocala · Pilot/RaceTrac",ll:[-82.14,29.19],day:4}
+];
+const REST=[
+ {lab:"OK Welcome Ctr · I-35",ll:[-97.18,36.58],day:1},
+ {lab:"Sallisaw · Travel Ctr",ll:[-94.82,35.52],day:2},
+ {lab:"Alma · AR Welcome Ctr",ll:[-94.10,35.42],day:2},
+ {lab:"Byhalia · MS Welcome Ctr",ll:[-89.58,34.70],day:3},
+ {lab:"Alabaster · Rest stop",ll:[-86.81,33.18],day:3},
+ {lab:"Madison · FL Welcome Ctr",ll:[-83.42,30.46],day:4}
+];
+const DAY_SUMMARY={
+ 1:{t:"Salina → Oklahoma City",m:"~290 mi · ~4.5 hrs · I-135 → I-35",d:"Short, gentle start. OKC has the cheapest gas of the trip and the Courtyard's horse-trailer parking."},
+ 2:{t:"Oklahoma City → Memphis",m:"~465 mi · ~7 hrs · I-40 via Little Rock",d:"Longest day — plan 4 stops and one sit-down meal. Stay on the quiet east side of Memphis, not downtown."},
+ 3:{t:"Memphis → Montgomery",m:"~330 mi · ~5 hrs · I-22 → I-65",d:"Easiest day. Fill up cheap in Tupelo. The EastChase Hampton is the best-rated hotel of the whole trip."},
+ 4:{t:"Montgomery → Leesburg",m:"~470 mi · ~7 hrs · US-231 → I-10 → I-75",d:"Long but dead flat into Florida. Home via I-75 Exit 329 (Wildwood). Toll-free all the way."}
+};
+let P=[],curDay="all";
+
+function hotelsUrl(name,where){return "https://www.hotels.com/Hotel-Search?destination="+encodeURIComponent(name+", "+where);}
+function gmapsUrl(){const wp=["Oklahoma City, OK","Memphis, TN","Montgomery, AL"].map(encodeURIComponent).join('|');
+  return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('Salina, KS 67401')}&destination=${encodeURIComponent('34407 Shadewood Circle, Leesburg, FL 34788')}&waypoints=${wp}&travelmode=driving`;}
+document.getElementById('driveit').href=gmapsUrl();
+function shieldNum(h){return h.replace(/[^0-9]/g,'');}
+
+function overviewCard(){
+  let h=`<div class="chead"><div class="kick">Trip Ledger & Index of Stops</div>
+    <h2>Salina → Leesburg</h2><div class="meta">4 days · 3 nights · ~1,555 mi · towing the T-bucket</div></div><div class="cbody">`;
+  h+=`<h3>The Drive, By Day</h3>`;
+  for(let d=1;d<=4;d++){const s=DAY_SUMMARY[d];
+    h+=`<div class="ovd"><span class="nm" style="border-left:4px solid ${DAYHEX[d]};padding-left:8px">Day ${d}: ${s.t}</span><span class="rt">${s.m.split(' · ')[0]}</span></div>`;}
+  h+=`<h3>Estimated Cost</h3><ul>
+    <li><b>Fuel</b> — both vehicles <span style="float:right;font-weight:700">~$645</span></li>
+    <li><b>Hotels</b> — 3 nights × 2 rooms <span style="float:right;font-weight:700">~$796</span></li>
+    <li><b>Tolls</b> <span style="float:right;font-weight:700">$0</span></li>
+    <li><b>Trip total</b> (fuel + hotels) <span style="float:right;font-weight:700;color:var(--red)">~$1,441</span></li></ul>`;
+  h+=`<h3>How To Read This Plate</h3><ul>
+    <li><span class="tag">★</span> diamond = overnight city (3 hotel picks each)</li>
+    <li><span class="tag">F</span> gold circle = fuel / service stop</li>
+    <li><span class="tag">P</span> blue square = rest area / diaper break</li>
+    <li>Colored line = the day's leg. Tap <b>D1–D4</b> under the map to highlight one day.</li></ul>`;
+  h+=`<p class="hint">Tap any town pin on the map →</p></div>`;
+  document.getElementById('card').innerHTML=h;
+}
+function stopCard(c){
+  const i=c.info||{};
+  let h=`<div class="chead"><div class="kick">${i.kick||(c.n+', '+c.st)}</div>
+    <h2>${c.n}, ${c.st}</h2><div class="meta">${i.meta||''}</div></div><div class="cbody">`;
+  if(i.blurb) h+=`<ul><li>${i.blurb}</li></ul>`;
+  if(i.hotels){h+=`<h3>🏨 Sleep — 3 picks <span style="font-weight:400;letter-spacing:.04em;text-transform:none;color:var(--ink-soft)">(tap name → Hotels.com)</span></h3>`;
+    i.hotels.forEach(ho=>{const url=hotelsUrl(ho[0],c.n+", "+c.st);
+      h+=`<div class="hotel"><div class="nm"><a href="${url}" target="_blank" rel="noopener" style="color:var(--red-deep);text-decoration:none;border-bottom:1px solid var(--edge)">${ho[0]} ↗</a><span class="pr">$${ho[2]}/rm</span></div><div class="sub">${ho[1]}</div></div>`;});}
+  if(i.fuel){h+=`<h3>⛽ Fuel</h3><ul>`+i.fuel.map(x=>`<li>${x}</li>`).join('')+`</ul>`;}
+  if(i.rest){h+=`<h3>🚻 Rest / diaper</h3><ul>`+i.rest.map(x=>`<li>${x}</li>`).join('')+`</ul>`;}
+  if(i.food){h+=`<h3>🍽️ Food</h3><ul>`+i.food.map(x=>`<li>${x}</li>`).join('')+`</ul>`;}
+  h+=`<p class="hint">← tap another town, or the compass to open Google Maps</p></div>`;
+  document.getElementById('card').innerHTML=h;
+}
+
+function draw(){
+  P=CITIES.map(c=>project(c.ll));
+  let s=`<svg viewBox="0 0 ${W2} ${H2}" xmlns="http://www.w3.org/2000/svg" font-family="Spectral, serif">`;
+  s+=`<defs>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .05 0"/></filter>
+    <radialGradient id="vig" cx="50%" cy="44%" r="80%"><stop offset="58%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#3a2f1a" stop-opacity=".26"/></radialGradient>
+    <path id="sealArc" d="M ${W2-104} ${H2-58} m -52,0 a 52,52 0 1,1 104,0 a 52,52 0 1,1 -104,0"/>
+  </defs>`;
+  // land base
+  s+=`<rect x="9" y="9" width="${W2-18}" height="${H2-18}" fill="#DfceA8"/>`;
+  // faint neighbors
+  NEIGH.forEach(r=>{s+=`<path d="${ringPath(r)}" fill="#D8C79E" stroke="#9b8a63" stroke-width=".5" stroke-opacity=".4"/>`;});
+  // route states
+  const tint=["#D9C087","#AEB984","#C7B36F","#A6B3C6","#CDA593","#A9C7B4","#B7C49A","#C0C79C","#A9C7B4"];
+  STATES.forEach((st,i)=>{
+    s+=`<path d="${ringPath(st.ring)}" fill="${tint[i%tint.length]}" fill-opacity=".9" stroke="#6b5c3e" stroke-width="1.1" stroke-opacity=".75"/>`;
+  });
+  STATES.forEach(st=>{const c=centroid(st.ring);
+    s+=`<text x="${PX(c[0]).toFixed(1)}" y="${PY(c[1]).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="600" font-size="14" letter-spacing="3" fill="#5c5240" opacity=".5">${st.ab}</text>`;});
+
+  // route legs
+  for(let i=0;i<CITIES.length-1;i++){const a=P[i],b=P[i+1];const day=CITIES[i+1].day;
+    const dim=(curDay!=="all"&&(+curDay)!==day);const op=dim?0.16:1;
+    s+=`<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="#F4EBD2" stroke-width="7" stroke-linecap="round" opacity="${op}"/>`;
+    s+=`<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="${DAYHEX[day]}" stroke-width="3.6" stroke-linecap="round" opacity="${op}"/>`;
+  }
+  // shields
+  SHIELDS.forEach(([li,hwy])=>{const a=P[li],b=P[li+1];const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2;
+    const day=CITIES[li+1].day;if(curDay!=="all"&&(+curDay)!==day)return;
+    const us=hwy.startsWith("US"),num=shieldNum(hwy);
+    if(us){s+=`<g transform="translate(${mx.toFixed(1)},${my.toFixed(1)})"><path d="M0,-11 C7,-11 11,-7 11,0 C11,7 5,10 0,12 C-5,10 -11,7 -11,0 C-11,-7 -7,-11 0,-11 Z" fill="#F4EBD2" stroke="#2A241C" stroke-width="1.3"/><text y="4" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="11" fill="#2A241C">${num}</text></g>`;}
+    else{s+=`<g transform="translate(${mx.toFixed(1)},${my.toFixed(1)})"><path d="M-12,-9 Q-12,-12 -9,-12 L9,-12 Q12,-12 12,-9 L12,3 Q12,7 0,12 Q-12,7 -12,3 Z" fill="#2c4a6b" stroke="#F4EBD2" stroke-width="1.3"/><rect x="-12" y="-12" width="24" height="5" fill="#B0392B"/><text y="5" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="11" fill="#fff">${num}</text></g>`;}
+  });
+  // REST stops (blue P, label above the line)
+  REST.forEach(rt=>{const p=project(rt.ll);const x=p[0],y=p[1];const my=y-19;
+    const dim=(curDay!=="all"&&(+curDay)!==rt.day);if(dim&&curDay!=="all")return;
+    let g=`<g opacity="1">`;
+    g+=`<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${x.toFixed(1)}" y2="${(my+8).toFixed(1)}" stroke="#2E6B8A" stroke-width=".8"/>`;
+    g+=`<rect x="${(x-8).toFixed(1)}" y="${(my-8).toFixed(1)}" width="16" height="16" rx="2" fill="#2E6B8A" stroke="#F4EBD2" stroke-width="1.3"/>`;
+    g+=`<text x="${x.toFixed(1)}" y="${(my+4).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="11" fill="#fff">P</text>`;
+    g+=`<text x="${x.toFixed(1)}" y="${(my-14).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="600" font-size="10.5" letter-spacing=".2" fill="#1f4a63" paint-order="stroke" stroke="#EFE6CC" stroke-width="2.8">${rt.lab}</text></g>`;
+    s+=g;});
+  // FUEL stops (gold F, label below the line)
+  FUEL.forEach(f=>{const p=project(f.ll);const x=p[0],y=p[1];const my=y+19;
+    const dim=(curDay!=="all"&&(+curDay)!==f.day);if(dim&&curDay!=="all")return;
+    let g=`<g opacity="1">`;
+    g+=`<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${x.toFixed(1)}" y2="${(my-8).toFixed(1)}" stroke="#7a5a18" stroke-width=".8"/>`;
+    g+=`<circle cx="${x.toFixed(1)}" cy="${my.toFixed(1)}" r="8" fill="#D89A2A" stroke="#5a3c00" stroke-width="1.3"/>`;
+    g+=`<text x="${x.toFixed(1)}" y="${(my+3.6).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="11" fill="#3a2a00">F</text>`;
+    g+=`<text x="${x.toFixed(1)}" y="${(my+19).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="600" font-size="10.5" letter-spacing=".2" fill="#5a3c00" paint-order="stroke" stroke="#EFE6CC" stroke-width="2.8">${f.lab}</text></g>`;
+    s+=g;});
+  // pins
+  CITIES.forEach((c,i)=>{const x=P[i][0],y=P[i][1];const term=c.kind==="start"||c.kind==="end";const night=c.kind==="night";
+    const dim=(curDay!=="all"&&(+curDay)!==c.day);const op=dim?0.25:1;
+    let g=`<g class="pin" data-i="${i}" style="cursor:pointer;opacity:${op};animation:pop .5s ease-out ${(0.2+i*0.05).toFixed(2)}s both"><title>${c.n} — tap for details</title><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="16" fill="transparent"/>`;
+    if(term){g+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="8.5" fill="#872820" stroke="#F4EBD2" stroke-width="2.4"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.3" fill="#F4EBD2"/>`;}
+    else if(night){g+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="9" fill="#F4EBD2" stroke="${DAYHEX[c.day]}" stroke-width="2.6"/><path d="M ${x.toFixed(1)} ${(y-15).toFixed(1)} l 6.5 6.5 l -6.5 6.5 l -6.5 -6.5 z" fill="${DAYHEX[c.day]}" stroke="#F4EBD2" stroke-width="1.2"/>`;}
+    else{g+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5.2" fill="#F4EBD2" stroke="#2A241C" stroke-width="1.6"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.9" fill="#2A241C"/>`;}
+    const left=["Salina","Wichita","Oklahoma City","Little Rock"].includes(c.n);
+    const lx=left?x-13:x+13;const anc=left?"end":"start";
+    const big=term||night;const fs=big?15:12.5;const fill=big?"#872820":"#2A241C";const fw=big?"700":"500";
+    const fam=big?"Alfa Slab One, serif":"Spectral, serif";const fst=(!big)?"italic":"normal";
+    g+=`<text x="${lx.toFixed(1)}" y="${(y+(night?-16:4)).toFixed(1)}" text-anchor="${night?'middle':anc}" font-family="${fam}" font-style="${fst}" font-weight="${fw}" font-size="${fs}" fill="${fill}" paint-order="stroke" stroke="#EFE6CC" stroke-width="3.2">${big?c.n.toUpperCase():c.n}</text>`;
+    if(night) g+=`<text x="${x.toFixed(1)}" y="${(y-31).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-size="9" letter-spacing="2" fill="${DAYHEX[c.day]}" paint-order="stroke" stroke="#EFE6CC" stroke-width="2.4">NIGHT ${c.night}</text>`;
+    g+=`</g>`;s+=g;
+  });
+
+  // border + corners
+  s+=`<rect x="9" y="9" width="${W2-18}" height="${H2-18}" fill="none" stroke="#5c4f33" stroke-width="2.5"/>`;
+  s+=`<rect x="15" y="15" width="${W2-30}" height="${H2-30}" fill="none" stroke="#5c4f33" stroke-width="1"/>`;
+  [[15,15],[W2-15,15],[15,H2-15],[W2-15,H2-15]].forEach(p=>{s+=`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="none" stroke="#5c4f33" stroke-width="1"/>`;});
+  // cartouche
+  s+=`<g><rect x="30" y="26" width="396" height="64" fill="#F4EBD2" stroke="#5c4f33" stroke-width="1.4" opacity=".95"/>
+    <rect x="34" y="30" width="388" height="56" fill="none" stroke="#5c4f33" stroke-width=".7"/>
+    <text x="46" y="49" font-family="Saira Condensed,sans-serif" font-size="11" letter-spacing="3.5" fill="#796A49">FRYDAY FILMS ROAD ATLAS · PLATE 67 · EASIEST-TOWING ROUTE</text>
+    <text x="45" y="78" font-family="Alfa Slab One,serif" font-size="23" fill="#2A241C">SALINA <tspan fill="#B0392B">→</tspan> LEESBURG</text></g>`;
+  // compass
+  const cx=W2-86,cy=82;
+  s+=`<a href="${gmapsUrl()}" target="_blank" rel="noopener" style="cursor:pointer"><g transform="translate(${cx},${cy})">
+    <circle r="26" fill="#F4EBD2" stroke="#5c4f33" stroke-width="1" opacity=".92"/>
+    <path d="M0,-24 L5,-5 L0,0 L-5,-5 Z" fill="#872820"/><path d="M0,24 L5,5 L0,0 L-5,5 Z" fill="#2A241C"/>
+    <path d="M-24,0 L-5,5 L0,0 L-5,-5 Z" fill="#2A241C"/><path d="M24,0 L5,5 L0,0 L5,-5 Z" fill="#2A241C"/>
+    <text x="0" y="-28" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-size="10" font-weight="700" fill="#872820">N</text>
+    <circle r="6" fill="#7C2A20" stroke="#F4EBD2" stroke-width="1.2"/><title>Open this route in Google Maps</title></g></a>`;
+  // legend
+  s+=`<g><rect x="30" y="${H2-150}" width="262" height="118" fill="#F4EBD2" stroke="#5c4f33" stroke-width="1.4" opacity=".95"/>
+    <rect x="34" y="${H2-146}" width="254" height="110" fill="none" stroke="#5c4f33" stroke-width=".6"/>
+    <text x="46" y="${H2-126}" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="12" letter-spacing="3" fill="#2A241C">SYMBOLS &amp; KEY</text>
+    <line x1="46" y1="${H2-118}" x2="276" y2="${H2-118}" stroke="#a3936a" stroke-width=".8"/>
+    <path d="M 58 ${H2-101} l 6 6 l -6 6 l -6 -6 z" fill="#B0392B" stroke="#F4EBD2"/><text x="76" y="${H2-96}" font-size="13" fill="#2A241C">Overnight stop</text>
+    <circle cx="58" cy="${H2-74}" r="8" fill="#D89A2A" stroke="#5a3c00"/><text x="54" y="${H2-70}" font-family="Saira Condensed,sans-serif" font-size="10" font-weight="700" fill="#3a2a00">F</text><text x="76" y="${H2-70}" font-size="13" fill="#2A241C">Gas station (F)</text>
+    <rect x="174" y="${H2-109}" width="15" height="15" rx="2" fill="#2E6B8A" stroke="#F4EBD2"/><text x="178" y="${H2-97}" font-family="Saira Condensed,sans-serif" font-size="10" font-weight="700" fill="#fff">P</text><text x="196" y="${H2-97}" font-size="13" fill="#2A241C">Rest stop (P)</text>
+    <circle cx="181" cy="${H2-74}" r="5" fill="#F4EBD2" stroke="#2A241C" stroke-width="1.5"/><circle cx="181" cy="${H2-74}" r="1.8" fill="#2A241C"/><text x="196" y="${H2-70}" font-size="13" fill="#2A241C">Town</text>
+    <text x="46" y="${H2-48}" font-family="Saira Condensed,sans-serif" font-size="10.5" letter-spacing="1" fill="#5c5240">LEGS:</text>
+    <line x1="84" y1="${H2-52}" x2="102" y2="${H2-52}" stroke="#B0392B" stroke-width="4"/><text x="106" y="${H2-48}" font-size="11" fill="#2A241C">D1</text>
+    <line x1="128" y1="${H2-52}" x2="146" y2="${H2-52}" stroke="#2E6B8A" stroke-width="4"/><text x="150" y="${H2-48}" font-size="11" fill="#2A241C">D2</text>
+    <line x1="172" y1="${H2-52}" x2="190" y2="${H2-52}" stroke="#6E7A33" stroke-width="4"/><text x="194" y="${H2-48}" font-size="11" fill="#2A241C">D3</text>
+    <line x1="216" y1="${H2-52}" x2="234" y2="${H2-52}" stroke="#C2461C" stroke-width="4"/><text x="238" y="${H2-48}" font-size="11" fill="#2A241C">D4</text></g>`;
+  // seal
+  s+=`<g><circle cx="${W2-104}" cy="${H2-58}" r="52" fill="#F4EBD2" stroke="#7C2A20" stroke-width="2.4"/>
+    <circle cx="${W2-104}" cy="${H2-58}" r="44" fill="none" stroke="#7C2A20" stroke-width="1"/>
+    <text font-family="Saira Condensed,sans-serif" font-size="10" font-weight="700" letter-spacing="2" fill="#7C2A20"><textPath href="#sealArc" startOffset="2%">★ CENTENNIAL OF THE U.S. HIGHWAY ★ 1926–2026 ★</textPath></text>
+    <text x="${W2-104}" y="${H2-46}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="30" fill="#7C2A20">★</text>
+    <text x="${W2-104}" y="${H2-74}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-size="8" letter-spacing="2" fill="#7C2A20">EST. 1926</text></g>`;
+  // texture + vignette
+  s+=`<rect x="9" y="9" width="${W2-18}" height="${H2-18}" filter="url(#grain)" opacity=".45" pointer-events="none"/>`;
+  s+=`<rect x="9" y="9" width="${W2-18}" height="${H2-18}" fill="url(#vig)" pointer-events="none"/>`;
+  s+=`</svg>`;
+  document.getElementById('mapBox').innerHTML=s;
+  document.querySelectorAll('.pin').forEach(el=>el.addEventListener('click',()=>stopCard(CITIES[+el.dataset.i])));
+}
+
+/* per-day totals (miles+hrs+fuel+hotels all reconcile to the trip totals) */
+const DAY_TOTALS={
+ 1:{mi:290,hrs:4.5,fuel:120,hotel:256,hotelNm:"Courtyard OKC ×2 rm"},
+ 2:{mi:465,hrs:7,  fuel:193,hotel:260,hotelNm:"HGI Wolfchase ×2 rm"},
+ 3:{mi:330,hrs:5,  fuel:137,hotel:280,hotelNm:"Hampton EastChase ×2 rm"},
+ 4:{mi:470,hrs:7,  fuel:195,hotel:0,  hotelNm:""}
+};
+function updateLedger(d){
+  const g=id=>document.getElementById(id);
+  if(d==="all"){
+    g('vDist').innerHTML='1,555 <small>mi</small>'; g('vDrive').innerHTML='~23.5 <small>hrs</small>';
+    g('vFuel').textContent='~$645'; g('vHotel').textContent='~$796';
+    g('lDist').textContent='Distance'; g('lFuel').textContent='Fuel · 2 vehicles'; g('lHotel').textContent='Hotels · 3 nts × 2 rm';
+  } else {
+    const t=DAY_TOTALS[+d];
+    g('vDist').innerHTML=t.mi.toLocaleString()+' <small>mi</small>'; g('vDrive').innerHTML='~'+t.hrs+' <small>hrs</small>';
+    g('vFuel').textContent='~$'+t.fuel; g('vHotel').textContent=t.hotel?('$'+t.hotel):'— home 🏁';
+    g('lDist').textContent='Day '+d+' · Distance'; g('lFuel').textContent='Day '+d+' · Fuel';
+    g('lHotel').textContent=t.hotel?('Night '+d+' · '+t.hotelNm):'Day '+d+' · no hotel';
+  }
+}
+/* zoom: frame just the selected day's leg */
+let lastVB=[0,0,W2,H2];
+function dayBBox(d){
+  const idxs=[];CITIES.forEach((c,i)=>{if(c.day===d)idxs.push(i);});
+  if(idxs[0]>0)idxs.unshift(idxs[0]-1);
+  const pts=idxs.map(i=>P[i]);
+  FUEL.forEach(f=>{if(f.day===d)pts.push(project(f.ll));});
+  REST.forEach(r=>{if(r.day===d)pts.push(project(r.ll));});
+  let mnx=1e9,mny=1e9,mxx=-1e9,mxy=-1e9;
+  pts.forEach(p=>{mnx=Math.min(mnx,p[0]);mny=Math.min(mny,p[1]);mxx=Math.max(mxx,p[0]);mxy=Math.max(mxy,p[1]);});
+  let x=mnx-70,y=mny-60,w=(mxx-mnx)+140,h=(mxy-mny)+120;
+  // lock to the plate's aspect ratio so the map box never changes size (no scroll);
+  // skinny legs like Day 1 just get extra side margin.
+  const AR=W2/H2;
+  if(w/h<AR){const nw=h*AR;x-=(nw-w)/2;w=nw;} else {const nh=w/AR;y-=(nh-h)/2;h=nh;}
+  return [x,y,w,h];
+}
+function tweenVB(to,ms){
+  const svg=document.querySelector('#mapBox svg');if(!svg)return;
+  const from=lastVB.slice();const t0=performance.now();
+  function step(t){let k=Math.min(1,(t-t0)/ms);k=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+    svg.setAttribute('viewBox',from.map((v,i)=>(v+(to[i]-v)*k).toFixed(1)).join(' '));
+    if(k<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);lastVB=to.slice();
+}
+document.getElementById('dayfilter').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#dayfilter button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  curDay=b.dataset.d;draw();
+  updateLedger(curDay);
+  tweenVB(curDay==="all"?[0,0,W2,H2]:dayBBox(+curDay),650);
+  if(curDay==="all") overviewCard();
+  else{const s=DAY_SUMMARY[+curDay];
+    document.getElementById('card').innerHTML=`<div class="chead"><div class="kick">Day ${curDay} · zoomed in</div><h2>${s.t}</h2><div class="meta">${s.m}</div></div><div class="cbody"><ul><li>${s.d}</li></ul><p class="hint">Totals below now show Day ${curDay} only · tap All to zoom back out →</p></div>`;}
+});
+
+overviewCard();
+draw();
+</script>
+</body>
+</html>

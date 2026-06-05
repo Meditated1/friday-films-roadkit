@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FryDay Films Road Atlas — Salina → Leesburg</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Saira+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#E7DABA;--paper-hi:#F0E6CB;--ink:#2A241C;--ink-soft:#5C5240;--rule:#796A49;
+    --edge:#C5AF82;--red:#B0392B;--red-deep:#872820;--cream:#F4EBD2;--gold:#B08433;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#3a3326;background-image:radial-gradient(circle at 50% 0%,#4a4131,#2c271d 80%);
+    font-family:"Spectral",serif;color:var(--ink);min-height:100vh;padding:30px 16px 60px;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:860px;margin:0 auto;}
+  .plate{background:radial-gradient(120% 90% at 30% 10%,var(--paper-hi),transparent 55%),var(--paper);
+    border-radius:6px;box-shadow:0 26px 60px -22px rgba(0,0,0,.7);padding:30px 28px 34px;position:relative;
+    border:1px solid var(--edge);}
+  .plate::after{content:"";position:absolute;inset:8px;border:1px solid var(--edge);border-radius:3px;pointer-events:none;}
+  .kick{font-family:"Saira Condensed";font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--rule);text-align:center;}
+  h1{font-family:"Alfa Slab One",serif;text-align:center;margin:6px 0 2px;font-size:34px;color:var(--ink);line-height:1.05;}
+  h1 .arrow{color:var(--red);}
+  .sub{text-align:center;font-family:"Saira Condensed";font-size:13px;letter-spacing:.05em;color:var(--ink-soft);margin-bottom:4px;}
+  .stats{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 20px;margin:14px 0 8px;}
+  .stats span{font-family:"Saira Condensed";font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);}
+  .stats b{font-family:"Alfa Slab One";font-weight:400;font-size:15px;color:var(--red-deep);margin-right:4px;}
+  hr{border:none;border-top:1px solid var(--edge);margin:18px 0;}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:620px){.cards{grid-template-columns:1fr;}}
+  a.card{display:block;text-decoration:none;background:var(--cream);border:1.5px solid var(--rule);border-radius:12px;
+    padding:16px 18px;color:var(--ink);transition:.15s;position:relative;}
+  a.card:hover{transform:translateY(-2px);box-shadow:0 12px 22px -14px rgba(0,0,0,.5);border-color:var(--red);}
+  a.card .ico{font-size:26px;}
+  a.card h3{font-family:"Alfa Slab One",serif;font-size:18px;margin:6px 0 4px;color:var(--red-deep);}
+  a.card p{margin:0;font-size:13px;line-height:1.4;color:var(--ink-soft);}
+  a.card .go{margin-top:8px;font-family:"Saira Condensed";font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--red);}
+  .downloads{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;justify-content:center;}
+  .downloads a{font-family:"Saira Condensed";font-weight:600;font-size:13px;letter-spacing:.04em;color:var(--ink);
+    text-decoration:none;border:1px solid var(--rule);border-radius:8px;padding:8px 13px;background:rgba(244,235,210,.5);}
+  .downloads a:hover{border-color:var(--red);color:var(--red-deep);}
+  .seal{text-align:center;margin-top:22px;}
+  .seal .ff{font-family:"Alfa Slab One",serif;font-size:18px;color:var(--red-deep);}
+  .seal small{display:block;font-family:"Saira Condensed";font-weight:600;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--rule);margin-top:2px;}
+  .note{text-align:center;font-family:"Saira Condensed";font-size:11px;letter-spacing:.05em;color:var(--rule);margin-top:14px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="plate">
+    <div class="kick">FryDay Films Road Atlas · 2026 Centennial Edition</div>
+    <h1>SALINA <span class="arrow">→</span> LEESBURG</h1>
+    <div class="sub">Family move · departing July 2026 · 4 days / 3 nights · towing the T-bucket</div>
+    <div class="stats">
+      <span><b>1,555</b> miles</span>
+      <span><b>~23.5</b> hrs</span>
+      <span><b>$0</b> tolls</span>
+      <span><b>4</b> days</span>
+      <span><b>3</b> nights</span>
+    </div>
+    <hr>
+    <div class="cards">
+      <a class="card" href="atlas.html">
+        <div class="ico">🗺️</div><h3>The Atlas</h3>
+        <p>Vintage Rand McNally-style route map. Tap any town for hotels, gas, food &amp; rest stops. Tap a day to zoom in.</p>
+        <div class="go">Open the atlas →</div>
+      </a>
+      <a class="card" href="triptik.html">
+        <div class="ico">📖</div><h3>The TripTik</h3>
+        <p>Spiral-bound, page-flipping drive guide — the flamed T-bucket rolls the route, checking off stops with roadside trivia.</p>
+        <div class="go">Open the TripTik →</div>
+      </a>
+      <a class="card" href="itinerary.html">
+        <div class="ico">🗓️</div><h3>The Itinerary</h3>
+        <p>Day-by-day plan with 3 hotel options per night (Hotels.com links), gas stops, restaurants, and live cost totals.</p>
+        <div class="go">Open the itinerary →</div>
+      </a>
+      <a class="card" href="session-report.md">
+        <div class="ico">📋</div><h3>The Report</h3>
+        <p>The full plan: route decision, costs, hotel picks, the July 3 vs July 10 comparison, and the GPS build plan.</p>
+        <div class="go">Read the report →</div>
+      </a>
+    </div>
+    <div class="downloads">
+      <a href="itinerary.pdf">⬇️ Printable PDF</a>
+      <a href="cost-tracker.xlsx">⬇️ Cost spreadsheet</a>
+      <a href="t-bucket.png">⬇️ T-bucket art</a>
+    </div>
+    <div class="seal">
+      <div class="ff">FryDay Films</div>
+      <small>Road Atlas Series · Est. 2026</small>
+    </div>
+    <div class="note">Destination: 34407 Shadewood Circle, Leesburg, FL 34788 · easiest-towing route, toll-free</div>
+  </div>
+</div>
+</body>
+</html>
