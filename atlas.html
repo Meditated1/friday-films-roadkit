@@ -84,7 +84,7 @@
           <div class="seg"><span class="lab" id="lDrive">Driving</span><span class="val" id="vDrive">~23.5 <small>hrs</small></span></div>
           <div class="seg"><span class="lab">Tolls</span><span class="val gold">$0</span></div>
           <div class="seg"><span class="lab" id="lFuel">Fuel · 2 vehicles</span><span class="val" id="vFuel">~$645</span></div>
-          <div class="seg"><span class="lab" id="lHotel">Hotels · 3 nts × 2 rm</span><span class="val" id="vHotel">~$796</span></div>
+          <div class="seg"><span class="lab" id="lHotel">Hotels · 3 nts × 2 rm</span><span class="val" id="vHotel">~$968</span></div>
           <div class="seg"><span class="lab">Highlight a leg</span>
             <div class="dayfilter" id="dayfilter">
               <button data-d="all" class="on">All</button>
@@ -135,7 +135,7 @@ function centroid(r){let x=0,y=0;r.forEach(p=>{x+=p[0];y+=p[1];});return [x/r.le
 /* ---------- route + stop data ---------- */
 const CITIES=[
  {n:"Salina",st:"KS",ll:[-97.61,38.84],kind:"start",day:1,
-   info:{kick:"Departure · Day 1",meta:"Friday, July 10, 2026",blurb:"Top off both tanks before you roll. Aim for a late-morning start so the baby naps through the first stretch."}},
+   info:{kick:"Departure · Day 1",meta:"Friday, July 3, 2026 · July 4th weekend",blurb:"Top off both tanks before you roll. Aim for a late-morning start so the baby naps through the first stretch. Heads-up: this is the Fourth of July weekend — book hotels early, they fill up."}},
  {n:"Wichita",st:"KS",ll:[-97.34,37.69],day:1,
    info:{kick:"Day 1 · waypoint",meta:"~90 mi in · I-135",
      fuel:["<b>QuikTrip, Wichita</b> — last KS fuel, spotless restrooms, big lot"],
@@ -143,9 +143,9 @@ const CITIES=[
      food:["Braum's (KS/OK regional) — burgers + fresh ice cream, fast & kid-friendly"]}},
  {n:"Oklahoma City",st:"OK",ll:[-97.52,35.47],kind:"night",night:1,day:1,
    info:{kick:"NIGHT 1 · Oklahoma City",meta:"~290 mi · ~4.5 hrs from Salina · I-40 @ Meridian",
-     hotels:[["Courtyard OKC Airport","Marriott · I-40 @ Meridian · bus/horse-trailer parking · Hotels.com",128],
-             ["Home2 Suites OKC Airport","Hilton · all-suite + kitchen · FREE breakfast · Hotels.com",132],
-             ["Fairfield Inn & Suites OKC","Marriott · FREE hot breakfast · indoor pool · Hotels.com",122]],
+     hotels:[["Home2 Suites OKC Airport","Hilton · 🐾 cats · 🚛 RV/bus/truck parking · all-suite+kitchen · Hotels.com",152],
+             ["TownePlace Suites OKC Airport","Marriott · 🐾 cats · 🚛 flat lot · suite+kitchen · Hotels.com",150],
+             ["Residence Inn OKC Airport","Marriott · 🐾 cats · ⚠️ lot fills early (arrive early) · suite+kitchen · Hotels.com",168]],
      fuel:["<b>Perry, OK</b> (I-35 Exit 185) — Love's, top off (OK = cheapest, $3.74)","<b>Edmond, OK</b> — Pilot/OnCue before OKC"],
      rest:["OK Welcome Center, I-35 SB mile 225 — 24/7 restrooms, pet/stretch area"],
      food:["Cracker Barrel — Edmond (I-35 Exit 137) — big lot, high chairs"]}},
@@ -156,9 +156,9 @@ const CITIES=[
      food:["Cracker Barrel / Chick-fil-A — Little Rock — reliable dinner ~2/3 of the way","Cracker Barrel — Alma (I-40 Exit 13) — mid-day sit-down reset"]}},
  {n:"Memphis",st:"TN",ll:[-90.05,35.15],kind:"night",night:2,day:2,
    info:{kick:"NIGHT 2 · Memphis EAST",meta:"~465 mi · ~7 hrs from OKC · Germantown Pkwy / I-40 Exit 16 (not downtown)",
-     hotels:[["Hilton Garden Inn Wolfchase","Hilton · I-40 Exit 16, Cordova · indoor saltwater pool · Hotels.com",130],
-             ["Hampton Inn & Suites Wolfchase","Hilton · patrolled lot · FREE hot breakfast · Hotels.com",130],
-             ["Courtyard Memphis Germantown","Marriott · indoor pool · Starbucks lobby · Hotels.com",125]],
+     hotels:[["Hilton Garden Inn Wolfchase","Hilton · 🐾 cats · 🚛 big standalone lot · indoor pool · Hotels.com",176],
+             ["Hampton Inn & Suites Wolfchase","Hilton · 🐾 cats · 🚛 large free lot · FREE bkfst · Hotels.com",172],
+             ["Residence Inn Memphis Germantown","Marriott · 🐾 cats · ⚠️ smaller lot, fills eve · suite+kitchen · Hotels.com",180]],
      fuel:["<b>Henryetta, OK</b> (I-40 Exit 237) — Love's, cheap OK fuel","<b>West Memphis, AR</b> (Exit 280) — Love's, last AR fuel, fill before TN"],
      rest:["Sallisaw, OK (I-40 Exit 308) — travel center, deli + restrooms","West Memphis, AR — Love's, last stop before the river"],
      food:["Whataburger (OK/AR) — fast, easy trailer parking"]}},
@@ -174,9 +174,9 @@ const CITIES=[
      food:["Chick-fil-A — Birmingham — best fast-with-a-baby option","Jim 'N Nick's Bar-B-Q (Birmingham) — family-friendly, good parking"]}},
  {n:"Montgomery",st:"AL",ll:[-86.30,32.37],kind:"night",night:3,day:3,
    info:{kick:"NIGHT 3 · Montgomery",meta:"~330 mi · ~5 hrs from Memphis · East Blvd / I-85 EastChase",
-     hotels:[["Hampton Inn & Suites EastChase","Hilton · 4.7★ best of trip · FREE breakfast · huge lot · Hotels.com",140],
-             ["Hilton Garden Inn Montgomery East","Hilton · closest to East Blvd/I-65 · pool · Hotels.com",125],
-             ["Courtyard Montgomery (Carmichael)","Marriott · parking on 3 sides · outdoor pool · Hotels.com",120]],
+     hotels:[["TownePlace Suites Montgomery EastChase","Marriott · 🐾 cats · 🚛 flat lot, often empty (best for trailer) · suite+kitchen · Hotels.com",156],
+             ["Hilton Garden Inn Montgomery East","Hilton · 🐾 cats · 🚛 free surface lot · pool · Hotels.com",150],
+             ["Hampton Inn & Suites EastChase","Hilton · 🐾 cats · ⚠️ buses OK but lot on steep hill · 4.7★ · Hotels.com",168]],
      fuel:["Top off here — long flat run to Florida ahead"],
      rest:["EastChase retail center — clean, easy, stretch the baby's legs"],
      food:["EastChase has Chick-fil-A & family chains right by the hotels"]}},
@@ -214,12 +214,12 @@ const FUEL=[
  {lab:"Ocala · Pilot/RaceTrac",ll:[-82.14,29.19],day:4}
 ];
 const REST=[
- {lab:"OK Welcome Ctr · I-35",ll:[-97.18,36.58],day:1},
- {lab:"Sallisaw · Travel Ctr",ll:[-94.82,35.52],day:2},
- {lab:"Alma · AR Welcome Ctr",ll:[-94.10,35.42],day:2},
- {lab:"Byhalia · MS Welcome Ctr",ll:[-89.58,34.70],day:3},
- {lab:"Alabaster · Rest stop",ll:[-86.81,33.18],day:3},
- {lab:"Madison · FL Welcome Ctr",ll:[-83.42,30.46],day:4}
+ {lab:"OK Welcome Ctr",ll:[-97.18,36.58],day:1},
+ {lab:"Sallisaw rest",ll:[-94.82,35.52],day:2},
+ {lab:"AR Welcome Ctr",ll:[-94.10,35.42],day:2},
+ {lab:"MS Welcome Ctr",ll:[-89.58,34.70],day:3},
+ {lab:"Alabaster rest",ll:[-86.81,33.18],day:3},
+ {lab:"FL Welcome Ctr",ll:[-83.42,30.46],day:4}
 ];
 const DAY_SUMMARY={
  1:{t:"Salina → Oklahoma City",m:"~290 mi · ~4.5 hrs · I-135 → I-35",d:"Short, gentle start. OKC has the cheapest gas of the trip and the Courtyard's horse-trailer parking."},
@@ -237,20 +237,20 @@ function shieldNum(h){return h.replace(/[^0-9]/g,'');}
 
 function overviewCard(){
   let h=`<div class="chead"><div class="kick">Trip Ledger & Index of Stops</div>
-    <h2>Salina → Leesburg</h2><div class="meta">4 days · 3 nights · ~1,555 mi · towing the T-bucket</div></div><div class="cbody">`;
+    <h2>Salina → Leesburg</h2><div class="meta">Depart Fri Jul 3 (🎆 Jul 4th wknd) · 4 days · 3 nights · 🐾 cats · towing the T-bucket</div></div><div class="cbody">`;
   h+=`<h3>The Drive, By Day</h3>`;
   for(let d=1;d<=4;d++){const s=DAY_SUMMARY[d];
     h+=`<div class="ovd"><span class="nm" style="border-left:4px solid ${DAYHEX[d]};padding-left:8px">Day ${d}: ${s.t}</span><span class="rt">${s.m.split(' · ')[0]}</span></div>`;}
   h+=`<h3>Estimated Cost</h3><ul>
     <li><b>Fuel</b> — both vehicles <span style="float:right;font-weight:700">~$645</span></li>
-    <li><b>Hotels</b> — 3 nights × 2 rooms <span style="float:right;font-weight:700">~$796</span></li>
+    <li><b>Hotels</b> — 3 nights × 2 rooms <span style="float:right;font-weight:700">~$968</span></li>
     <li><b>Tolls</b> <span style="float:right;font-weight:700">$0</span></li>
-    <li><b>Trip total</b> (fuel + hotels) <span style="float:right;font-weight:700;color:var(--red)">~$1,441</span></li></ul>`;
+    <li><b>Trip total</b> (fuel + hotels) <span style="float:right;font-weight:700;color:var(--red)">~$1,613</span></li></ul>`;
   h+=`<h3>How To Read This Plate</h3><ul>
     <li><span class="tag">★</span> diamond = overnight city (3 hotel picks each)</li>
     <li><span class="tag">F</span> gold circle = fuel / service stop</li>
     <li><span class="tag">P</span> blue square = rest area / diaper break</li>
-    <li>Colored line = the day's leg. Tap <b>D1–D4</b> under the map to highlight one day.</li></ul>`;
+    <li>Colored line = the day's leg. Tap <b>D1–D4</b> under the map to highlight one day.</li><li>🐾 All hotels cat-friendly (~$50-75 pet fee); 🚛 trailer-parking notes on each (look for the truck icon); 🎆 holiday rates — book early.</li></ul>`;
   h+=`<p class="hint">Tap any town pin on the map →</p></div>`;
   document.getElementById('card').innerHTML=h;
 }
@@ -303,37 +303,47 @@ function draw(){
     else{s+=`<g transform="translate(${mx.toFixed(1)},${my.toFixed(1)})"><path d="M-12,-9 Q-12,-12 -9,-12 L9,-12 Q12,-12 12,-9 L12,3 Q12,7 0,12 Q-12,7 -12,3 Z" fill="#2c4a6b" stroke="#F4EBD2" stroke-width="1.3"/><rect x="-12" y="-12" width="24" height="5" fill="#B0392B"/><text y="5" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="11" fill="#fff">${num}</text></g>`;}
   });
   }
-  // ---- markers + de-collided labels (fuel → right, rest → left, stacked so nothing overlaps) ----
-  const Ls=[],Rs=[];
-  REST.forEach(rt=>{if(curDay!=="all"&&(+curDay)!==rt.day)return;const p=project(rt.ll);const x=p[0],y=p[1];const mx=x-14;
-    s+=`<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${mx.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#2E6B8A" stroke-width=".8"/>`;
-    s+=`<rect x="${(mx-8).toFixed(1)}" y="${(y-8).toFixed(1)}" width="16" height="16" rx="2" fill="#2E6B8A" stroke="#F4EBD2" stroke-width="1.3"/>`;
-    s+=`<text x="${mx.toFixed(1)}" y="${(y+4).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="11" fill="#fff">P</text>`;
-    Ls.push({ax:mx-9,ay:y,text:rt.lab,color:"#1f4a63",size:10.5,weight:600,fam:"Saira Condensed,sans-serif",fst:"normal",dir:-1});});
-  FUEL.forEach(f=>{if(curDay!=="all"&&(+curDay)!==f.day)return;const p=project(f.ll);const x=p[0],y=p[1];const mx=x+14;
-    s+=`<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${mx.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#7a5a18" stroke-width=".8"/>`;
-    s+=`<circle cx="${mx.toFixed(1)}" cy="${y.toFixed(1)}" r="8" fill="#D89A2A" stroke="#5a3c00" stroke-width="1.3"/>`;
-    s+=`<text x="${mx.toFixed(1)}" y="${(y+3.6).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="11" fill="#3a2a00">F</text>`;
-    Rs.push({ax:mx+9,ay:y,text:f.lab,color:"#5a3c00",size:10.5,weight:600,fam:"Saira Condensed,sans-serif",fst:"normal",dir:1});});
+  // ---- markers + greedy 2-D label placement (nearest open slot: side, above, below, or diagonal) ----
+  const cityNames=CITIES.map(c=>c.n);
+  function shortLab(lab){const t=lab.split(" · ")[0]; return cityNames.indexOf(t)>=0 ? lab.split(" · ").slice(1).join(" · ") : lab;}
+  const placed=[], labels=[];
+  function overlaps(b){return placed.some(p=>!(b.x2<p.x1-2||b.x1>p.x2+2||b.y2<p.y1-2||b.y1>p.y2+2));}
+  function boxFor(ax,ay,w,h,anc,top){let x1;if(anc==='start')x1=ax;else if(anc==='end')x1=ax-w;else x1=ax-w/2;return {x1,x2:x1+w,y1:ay-h*0.8-(top||0),y2:ay+h*0.3};}
+  function routePerp(mx,my){let best=1e9,px=1,py=0;for(let i=0;i<P.length-1;i++){const a=P[i],b=P[i+1];const dx=b[0]-a[0],dy=b[1]-a[1];const L2=dx*dx+dy*dy||1;let t=((mx-a[0])*dx+(my-a[1])*dy)/L2;t=Math.max(0,Math.min(1,t));const cx=a[0]+t*dx,cy=a[1]+t*dy,d=(mx-cx)**2+(my-cy)**2;if(d<best){best=d;const L=Math.hypot(dx,dy)||1;px=-dy/L;py=dx/L;}}return [px,py];}
+  function candsFor(mx,my){const pp=routePerp(mx,my),px=pp[0],py=pp[1],tx=-py,ty=px,out=[];[16,30,46,64,82].forEach(D=>{out.push([px*D,py*D],[-px*D,-py*D],[tx*D,ty*D],[-tx*D,-ty*D]);});return out.map(c=>{const anc=c[0]>4?'start':(c[0]<-4?'end':'middle');return [c[0],c[1],anc];});}
+  function place(o){const w=o.text.length*o.size*0.52+o.size*0.4;const h=o.size*1.15;const top=o.badge?o.size:0;
+    for(const c of candsFor(o.mx,o.my)){const ax=o.mx+c[0],ay=o.my+c[1],b=boxFor(ax,ay,w,h,c[2],top);
+      if(b.x1<12||b.x2>W2-12||b.y1<12||b.y2>H2-12)continue; if(!overlaps(b)){placed.push(b);return {ax,ay,anchor:c[2]};}}
+    const ax=o.mx+58,ay=o.my,b=boxFor(ax,ay,w,h,'start',top);placed.push(b);return {ax,ay,anchor:'start'};}
+  REST.forEach(rt=>{if(curDay!=="all"&&(+curDay)!==rt.day)return;const p=project(rt.ll);const x=p[0],y=p[1];
+    s+=`<rect x="${(x-7).toFixed(1)}" y="${(y-7).toFixed(1)}" width="14" height="14" rx="2" fill="#2E6B8A" stroke="#F4EBD2" stroke-width="1.2"/>`;
+    s+=`<text x="${x.toFixed(1)}" y="${(y+3.4).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="10" fill="#fff">P</text>`;
+    labels.push({mx:x,my:y,text:shortLab(rt.lab),color:"#1f4a63",size:10.5,weight:600,fam:"Saira Condensed,sans-serif",fst:"normal",pri:3});});
+  FUEL.forEach(f=>{if(curDay!=="all"&&(+curDay)!==f.day)return;const p=project(f.ll);const x=p[0],y=p[1];
+    s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7.5" fill="#D89A2A" stroke="#5a3c00" stroke-width="1.2"/>`;
+    s+=`<text x="${x.toFixed(1)}" y="${(y+3.4).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="10" fill="#3a2a00">F</text>`;
+    labels.push({mx:x,my:y,text:shortLab(f.lab),color:"#5a3c00",size:10.5,weight:600,fam:"Saira Condensed,sans-serif",fst:"normal",pri:2});});
   CITIES.forEach((c,i)=>{const x=P[i][0],y=P[i][1];const term=c.kind==="start"||c.kind==="end";const night=c.kind==="night";
-    const dim=(curDay!=="all"&&(+curDay)!==c.day);const op=dim?0.25:1;
+    const isOrigin=(curDay!=="all"&&c.kind==="night"&&c.day===(+curDay)-1);const show=(curDay==="all"||(+curDay)===c.day||isOrigin);const op=show?1:0.22;
     let g=`<g class="pin" data-i="${i}" style="cursor:pointer;opacity:${op};animation:pop .5s ease-out ${(0.2+i*0.05).toFixed(2)}s both"><title>${c.n} — tap for details</title><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="16" fill="transparent"/>`;
     if(term){g+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="8.5" fill="#872820" stroke="#F4EBD2" stroke-width="2.4"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.3" fill="#F4EBD2"/>`;}
     else if(night){g+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="9" fill="#F4EBD2" stroke="${DAYHEX[c.day]}" stroke-width="2.6"/><path d="M ${x.toFixed(1)} ${(y-15).toFixed(1)} l 6.5 6.5 l -6.5 6.5 l -6.5 -6.5 z" fill="${DAYHEX[c.day]}" stroke="#F4EBD2" stroke-width="1.2"/>`;}
     else{g+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5.2" fill="#F4EBD2" stroke="#2A241C" stroke-width="1.6"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.9" fill="#2A241C"/>`;}
     g+=`</g>`;s+=g;
-    if(term){const lt=c.kind==="start";const tx=lt?x-12:x+12;const ax=lt?"end":"start";
-      s+=`<text x="${tx.toFixed(1)}" y="${(y+5).toFixed(1)}" text-anchor="${ax}" font-family="Alfa Slab One,serif" font-size="16" fill="#872820" paint-order="stroke" stroke="#F4EBD2" stroke-width="3.4" style="pointer-events:none">${c.n.toUpperCase()}</text>`;}
-    else if(night){Ls.push({ax:x-11,ay:y,text:c.n.toUpperCase(),color:"#872820",size:15,weight:700,fam:"Alfa Slab One, serif",fst:"normal",dir:-1,badge:"NIGHT "+c.night,bcolor:DAYHEX[c.day]});}
-    else{Rs.push({ax:x+9,ay:y,text:c.n,color:"#2A241C",size:12.5,weight:500,fam:"Spectral, serif",fst:"italic",dir:1});}
+    if(!show)return;
+    if(term){const lt=c.kind==="start";const tx=lt?x-12:x+12;const ax=lt?"end":"start";const w=c.n.length*16*0.58;
+      s+=`<text x="${tx.toFixed(1)}" y="${(y+5).toFixed(1)}" text-anchor="${ax}" font-family="Alfa Slab One,serif" font-size="16" fill="#872820" paint-order="stroke" stroke="#F4EBD2" stroke-width="3.4" style="pointer-events:none">${c.n.toUpperCase()}</text>`;
+      placed.push({x1:lt?tx-w:tx,x2:lt?tx:tx+w,y1:y-12,y2:y+8});}
+    else if(night){labels.push({mx:x,my:y,text:c.n.toUpperCase(),color:"#872820",size:14,weight:700,fam:"Alfa Slab One, serif",fst:"normal",badge:"NIGHT "+c.night,bcolor:DAYHEX[c.day],pri:0});}
+    else{labels.push({mx:x,my:y,text:c.n,color:"#2A241C",size:12,weight:500,fam:"Spectral, serif",fst:"italic",pri:1});}
   });
-  function placeSide(arr){arr.sort((a,b)=>a.ay-b.ay);let lastY=-1e9;const GAP=18;
-    arr.forEach(o=>{let ly=o.ay;if(ly<lastY+GAP)ly=lastY+GAP;lastY=ly;
-      const tx=o.ax+(o.dir>0?5:-5);const anchor=o.dir>0?"start":"end";
-      s+=`<line x1="${o.ax.toFixed(1)}" y1="${o.ay.toFixed(1)}" x2="${o.ax.toFixed(1)}" y2="${ly.toFixed(1)}" stroke="#9b8a63" stroke-width=".7"/>`;
-      if(o.badge)s+=`<text x="${tx.toFixed(1)}" y="${(ly-12).toFixed(1)}" text-anchor="${anchor}" font-family="Saira Condensed,sans-serif" font-size="9" letter-spacing="2" fill="${o.bcolor}" paint-order="stroke" stroke="#EFE6CC" stroke-width="2.4" style="pointer-events:none">${o.badge}</text>`;
-      s+=`<text x="${tx.toFixed(1)}" y="${(ly+o.size*0.34).toFixed(1)}" text-anchor="${anchor}" font-family="${o.fam}" font-style="${o.fst}" font-weight="${o.weight}" font-size="${o.size}" fill="${o.color}" paint-order="stroke" stroke="#EFE6CC" stroke-width="3" style="pointer-events:none">${o.text}</text>`;});}
-  placeSide(Ls);placeSide(Rs);
+  // place important labels first (overnights, then towns, then fuel, then rest) so they win the best spots
+  labels.sort((a,b)=>a.pri-b.pri || a.my-b.my);
+  labels.forEach(o=>{const pos=place(o);const anchor=pos.anchor;
+    s+=`<line x1="${o.mx.toFixed(1)}" y1="${o.my.toFixed(1)}" x2="${pos.ax.toFixed(1)}" y2="${pos.ay.toFixed(1)}" stroke="#9b8a63" stroke-width=".7"/>`;
+    if(o.badge)s+=`<text x="${pos.ax.toFixed(1)}" y="${(pos.ay-11).toFixed(1)}" text-anchor="${anchor}" font-family="Saira Condensed,sans-serif" font-size="9" letter-spacing="2" fill="${o.bcolor}" paint-order="stroke" stroke="#EFE6CC" stroke-width="2.4" style="pointer-events:none">${o.badge}</text>`;
+    s+=`<text x="${pos.ax.toFixed(1)}" y="${(pos.ay+o.size*0.34).toFixed(1)}" text-anchor="${anchor}" font-family="${o.fam}" font-style="${o.fst}" font-weight="${o.weight}" font-size="${o.size}" fill="${o.color}" paint-order="stroke" stroke="#EFE6CC" stroke-width="3" style="pointer-events:none">${o.text}</text>`;
+  });
 
   // border + corners
   s+=`<rect x="9" y="9" width="${W2-18}" height="${H2-18}" fill="none" stroke="#5c4f33" stroke-width="2.5"/>`;
@@ -382,16 +392,16 @@ function draw(){
 
 /* per-day totals (miles+hrs+fuel+hotels all reconcile to the trip totals) */
 const DAY_TOTALS={
- 1:{mi:290,hrs:4.5,fuel:120,hotel:256,hotelNm:"Courtyard OKC ×2 rm"},
- 2:{mi:465,hrs:7,  fuel:193,hotel:260,hotelNm:"HGI Wolfchase ×2 rm"},
- 3:{mi:330,hrs:5,  fuel:137,hotel:280,hotelNm:"Hampton EastChase ×2 rm"},
+ 1:{mi:290,hrs:4.5,fuel:120,hotel:304,hotelNm:"Home2 Suites OKC ×2 rm"},
+ 2:{mi:465,hrs:7,  fuel:193,hotel:352,hotelNm:"HGI Wolfchase ×2 rm"},
+ 3:{mi:330,hrs:5,  fuel:137,hotel:312,hotelNm:"TownePlace EastChase ×2 rm"},
  4:{mi:470,hrs:7,  fuel:195,hotel:0,  hotelNm:""}
 };
 function updateLedger(d){
   const g=id=>document.getElementById(id);
   if(d==="all"){
     g('vDist').innerHTML='1,555 <small>mi</small>'; g('vDrive').innerHTML='~23.5 <small>hrs</small>';
-    g('vFuel').textContent='~$645'; g('vHotel').textContent='~$796';
+    g('vFuel').textContent='~$645'; g('vHotel').textContent='~$968';
     g('lDist').textContent='Distance'; g('lFuel').textContent='Fuel · 2 vehicles'; g('lHotel').textContent='Hotels · 3 nts × 2 rm';
   } else {
     const t=DAY_TOTALS[+d];

@@ -70,7 +70,7 @@
 <div class="wrap">
   <header class="hero">
     <h1>🚛 Salina, KS → Leesburg, FL</h1>
-    <div class="sub">Family move · departing <b>Friday, July 10, 2026</b> · 4 days / 3 nights · convoy: 2018 Tacoma TRD (towing 2,300 lb T-bucket) + 2024 Land Cruiser · 10-month-old aboard</div>
+    <div class="sub">Family move · departing <b>Friday, July 3, 2026</b> (🎆 July 4th weekend) · 4 days / 3 nights · 🐾 traveling with cats · convoy: 2018 Tacoma TRD (towing 2,300 lb T-bucket) + 2024 Land Cruiser · 10-month-old aboard</div>
     <div class="route">Recommended <b>easiest-towing</b> route: I-135 → I-35 → I-40 → I-22 → I-65 → US-231 → I-10 → I-75 (Exit 329 Wildwood). <b>~1,555 mi</b> · <b>~23.5 hrs</b> · <b>$0 tolls</b> · no Monteagle, no Appalachian grades, Atlanta avoided.</div>
     <div class="breathe">🌿 One breath before the road: 1,555 miles split over four days is only ~330–470 mi a day. You've built in margin. Tires checked, baby buckled, coffee in hand — you've got this.</div>
   </header>
@@ -105,7 +105,7 @@
       <div class="sec">
         <h3>🏨 Sleep — Oklahoma City (I-40 / Meridian "Restaurant Row" cluster)</h3>
         <div data-night="1"></div>
-        <div class="note">All three are surface-lot hotels right off I-40 at Meridian (Exit 145). Courtyard explicitly advertises bus/horse-trailer parking — grab it for the trailer. All bookable on <b>Hotels.com</b> (use your points). Confirm a crib/pack-n-play at booking.</div>
+        <div class="note">All three are reliably <b>cat-friendly</b> suite/extended-stay hotels right off I-40 at Meridian — kitchens are handy with cats. Pet fee ~$50–75/stay. All on <b>Hotels.com</b> (use your points). 🎆 July 4th weekend — book early.</div>
       </div>
       <div class="twocol">
         <div class="sec">
@@ -278,7 +278,7 @@
   </div>
 
   <footer>
-    Rates are July 2026 estimates by tier — confirm crib & trailer parking when booking. Hotel totals above update live with your picks and room count.<br>
+    Rates are July 4th-weekend (Jul 3–5) estimates — run higher than normal; book early. 🐾 All picks confirmed cat-friendly; call 24–48h ahead to reconfirm cats + pet fee. Confirm trailer parking when booking. Hotel totals above update live with your picks and room count.<br>
     Built for Thomas · easiest-towing route · all hotels Marriott/Hilton family & on Hotels.com · Buc-ee's-free corridor (verified).
   </footer>
 </div>
@@ -288,22 +288,21 @@ const CITY = {1:"Oklahoma City, OK", 2:"Memphis, TN", 3:"Montgomery, AL"};
 function hotelsUrl(name, city){ return "https://www.hotels.com/Hotel-Search?destination="+encodeURIComponent(name+", "+city); }
 const HOTELS = {
   1: [
-    {nm:"Courtyard by Marriott OKC Airport", brand:"Marriott", area:"I-40 @ Meridian (Exit 145)", est:128, r:"3.7", tags:["★ Trailer/horse-trailer parking","Outdoor pool","Crib on request","Hotels.com"]},
-    {nm:"Home2 Suites by Hilton OKC Airport", brand:"Hilton", area:"I-40 & I-44 @ Meridian", est:132, r:"8.7/10", tags:["All-suite + kitchen","FREE breakfast","Indoor saltwater pool","Hotels.com"]},
-    {nm:"Fairfield Inn & Suites OKC Airport", brand:"Marriott", area:"4521 SW 15th @ Meridian", est:122, r:"8.1/10", tags:["FREE hot breakfast","Indoor pool","Airport shuttle","Hotels.com"]}
+    {nm:"Home2 Suites by Hilton OKC Airport", brand:"Hilton", area:"I-40 & I-44 @ Meridian", est:152, r:"8.7/10", tags:["🐾 Cats OK","🚛 RV/bus/truck parking","All-suite + kitchen","Hotels.com"]},
+    {nm:"TownePlace Suites OKC Airport", brand:"Marriott", area:"Meridian Restaurant Row", est:150, r:"4.2", tags:["🐾 Cats OK","🚛 Flat lot","Suite + kitchen","Hotels.com"]},
+    {nm:"Residence Inn OKC Airport", brand:"Marriott", area:"I-40 @ Meridian (behind row)", est:168, r:"4.3", tags:["🐾 Cats OK","⚠️ Lot fills early","Suite + kitchen","Hotels.com"]}
   ],
   2: [
-    {nm:"Hilton Garden Inn Memphis / Wolfchase", brand:"Hilton", area:"I-40 Exit 16, Cordova", est:130, r:"4.0+", tags:["Indoor saltwater pool","Big-box surface lot","Crib on request","Hotels.com"]},
-    {nm:"Hampton Inn & Suites Wolfchase", brand:"Hilton", area:"I-40 Exit 16, Bartlett", est:130, r:"4.0", tags:["★ Patrolled lot","FREE hot breakfast","Outdoor pool","Hotels.com"]},
-    {nm:"Courtyard by Marriott Memphis Germantown", brand:"Marriott", area:"Germantown Pkwy / Wolfchase", est:125, r:"3.6", tags:["Indoor pool","Surface lot","Starbucks lobby","Hotels.com"]}
+    {nm:"Hilton Garden Inn Memphis / Wolfchase", brand:"Hilton", area:"I-40 Exit 16, Cordova", est:176, r:"4.0+", tags:["🐾 Cats OK","🚛 Big standalone lot","Indoor pool","Hotels.com"]},
+    {nm:"Hampton Inn & Suites Wolfchase", brand:"Hilton", area:"I-40 Exit 16, Bartlett", est:172, r:"4.0", tags:["🐾 Cats OK","🚛 Large free lot","FREE breakfast","Hotels.com"]},
+    {nm:"Residence Inn Memphis Germantown", brand:"Marriott", area:"Germantown / Wolfchase", est:180, r:"4.4", tags:["🐾 Cats OK","⚠️ Smaller lot (fills eve)","Suite + kitchen","Hotels.com"]}
   ],
   3: [
-    {nm:"Hampton Inn & Suites Montgomery-EastChase", brand:"Hilton", area:"I-85 @ EastChase", est:140, r:"4.7 ★ best of trip", tags:["FREE hot breakfast","Huge retail-center lot","Outdoor pool","Hotels.com"]},
-    {nm:"Hilton Garden Inn Montgomery East", brand:"Hilton", area:"I-85 Exit 4 (Perry Hill)", est:125, r:"7.9/10", tags:["Closest to East Blvd/I-65","Outdoor pool","Surface lot","Hotels.com"]},
-    {nm:"Courtyard by Marriott Montgomery (Carmichael)", brand:"Marriott", area:"I-85 Exit 6", est:120, r:"6.9/10", tags:["★ Parking on 3 sides","Outdoor pool","Crib on request","Hotels.com"]}
+    {nm:"TownePlace Suites Montgomery EastChase", brand:"Marriott", area:"I-85 @ EastChase", est:156, r:"4.3", tags:["🐾 Cats OK","🚛 Flat lot, often empty","Suite + kitchen","Hotels.com"]},
+    {nm:"Hilton Garden Inn Montgomery East", brand:"Hilton", area:"I-85 Exit 4 (Perry Hill)", est:150, r:"7.9/10", tags:["🐾 Cats OK","🚛 Free surface lot","Outdoor pool","Hotels.com"]},
+    {nm:"Hampton Inn & Suites Montgomery-EastChase", brand:"Hilton", area:"I-85 @ EastChase", est:168, r:"4.7 ★", tags:["🐾 Cats OK","⚠️ Lot on steep hill","FREE breakfast","Hotels.com"]}
   ]
-};
-const sel = {1:0, 2:0, 3:0};
+}
 
 function tagHtml(t){
   let cls="tag";
