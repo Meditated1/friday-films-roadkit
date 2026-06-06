@@ -295,46 +295,45 @@ function draw(){
     s+=`<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="#F4EBD2" stroke-width="7" stroke-linecap="round" opacity="${op}"/>`;
     s+=`<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="${DAYHEX[day]}" stroke-width="3.6" stroke-linecap="round" opacity="${op}"/>`;
   }
-  // shields
+  // shields — only in the full overview (they clutter a zoomed-in day)
+  if(curDay==="all"){
   SHIELDS.forEach(([li,hwy])=>{const a=P[li],b=P[li+1];const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2;
-    const day=CITIES[li+1].day;if(curDay!=="all"&&(+curDay)!==day)return;
     const us=hwy.startsWith("US"),num=shieldNum(hwy);
     if(us){s+=`<g transform="translate(${mx.toFixed(1)},${my.toFixed(1)})"><path d="M0,-11 C7,-11 11,-7 11,0 C11,7 5,10 0,12 C-5,10 -11,7 -11,0 C-11,-7 -7,-11 0,-11 Z" fill="#F4EBD2" stroke="#2A241C" stroke-width="1.3"/><text y="4" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="11" fill="#2A241C">${num}</text></g>`;}
     else{s+=`<g transform="translate(${mx.toFixed(1)},${my.toFixed(1)})"><path d="M-12,-9 Q-12,-12 -9,-12 L9,-12 Q12,-12 12,-9 L12,3 Q12,7 0,12 Q-12,7 -12,3 Z" fill="#2c4a6b" stroke="#F4EBD2" stroke-width="1.3"/><rect x="-12" y="-12" width="24" height="5" fill="#B0392B"/><text y="5" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="11" fill="#fff">${num}</text></g>`;}
   });
-  // REST stops (blue P, label above the line)
-  REST.forEach(rt=>{const p=project(rt.ll);const x=p[0],y=p[1];const my=y-19;
-    const dim=(curDay!=="all"&&(+curDay)!==rt.day);if(dim&&curDay!=="all")return;
-    let g=`<g opacity="1">`;
-    g+=`<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${x.toFixed(1)}" y2="${(my+8).toFixed(1)}" stroke="#2E6B8A" stroke-width=".8"/>`;
-    g+=`<rect x="${(x-8).toFixed(1)}" y="${(my-8).toFixed(1)}" width="16" height="16" rx="2" fill="#2E6B8A" stroke="#F4EBD2" stroke-width="1.3"/>`;
-    g+=`<text x="${x.toFixed(1)}" y="${(my+4).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="11" fill="#fff">P</text>`;
-    g+=`<text x="${x.toFixed(1)}" y="${(my-14).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="600" font-size="10.5" letter-spacing=".2" fill="#1f4a63" paint-order="stroke" stroke="#EFE6CC" stroke-width="2.8">${rt.lab}</text></g>`;
-    s+=g;});
-  // FUEL stops (gold F, label below the line)
-  FUEL.forEach(f=>{const p=project(f.ll);const x=p[0],y=p[1];const my=y+19;
-    const dim=(curDay!=="all"&&(+curDay)!==f.day);if(dim&&curDay!=="all")return;
-    let g=`<g opacity="1">`;
-    g+=`<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${x.toFixed(1)}" y2="${(my-8).toFixed(1)}" stroke="#7a5a18" stroke-width=".8"/>`;
-    g+=`<circle cx="${x.toFixed(1)}" cy="${my.toFixed(1)}" r="8" fill="#D89A2A" stroke="#5a3c00" stroke-width="1.3"/>`;
-    g+=`<text x="${x.toFixed(1)}" y="${(my+3.6).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="11" fill="#3a2a00">F</text>`;
-    g+=`<text x="${x.toFixed(1)}" y="${(my+19).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="600" font-size="10.5" letter-spacing=".2" fill="#5a3c00" paint-order="stroke" stroke="#EFE6CC" stroke-width="2.8">${f.lab}</text></g>`;
-    s+=g;});
-  // pins
+  }
+  // ---- markers + de-collided labels (fuel → right, rest → left, stacked so nothing overlaps) ----
+  const Ls=[],Rs=[];
+  REST.forEach(rt=>{if(curDay!=="all"&&(+curDay)!==rt.day)return;const p=project(rt.ll);const x=p[0],y=p[1];const mx=x-14;
+    s+=`<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${mx.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#2E6B8A" stroke-width=".8"/>`;
+    s+=`<rect x="${(mx-8).toFixed(1)}" y="${(y-8).toFixed(1)}" width="16" height="16" rx="2" fill="#2E6B8A" stroke="#F4EBD2" stroke-width="1.3"/>`;
+    s+=`<text x="${mx.toFixed(1)}" y="${(y+4).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="11" fill="#fff">P</text>`;
+    Ls.push({ax:mx-9,ay:y,text:rt.lab,color:"#1f4a63",size:10.5,weight:600,fam:"Saira Condensed,sans-serif",fst:"normal",dir:-1});});
+  FUEL.forEach(f=>{if(curDay!=="all"&&(+curDay)!==f.day)return;const p=project(f.ll);const x=p[0],y=p[1];const mx=x+14;
+    s+=`<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${mx.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#7a5a18" stroke-width=".8"/>`;
+    s+=`<circle cx="${mx.toFixed(1)}" cy="${y.toFixed(1)}" r="8" fill="#D89A2A" stroke="#5a3c00" stroke-width="1.3"/>`;
+    s+=`<text x="${mx.toFixed(1)}" y="${(y+3.6).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-weight="700" font-size="11" fill="#3a2a00">F</text>`;
+    Rs.push({ax:mx+9,ay:y,text:f.lab,color:"#5a3c00",size:10.5,weight:600,fam:"Saira Condensed,sans-serif",fst:"normal",dir:1});});
   CITIES.forEach((c,i)=>{const x=P[i][0],y=P[i][1];const term=c.kind==="start"||c.kind==="end";const night=c.kind==="night";
     const dim=(curDay!=="all"&&(+curDay)!==c.day);const op=dim?0.25:1;
     let g=`<g class="pin" data-i="${i}" style="cursor:pointer;opacity:${op};animation:pop .5s ease-out ${(0.2+i*0.05).toFixed(2)}s both"><title>${c.n} — tap for details</title><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="16" fill="transparent"/>`;
     if(term){g+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="8.5" fill="#872820" stroke="#F4EBD2" stroke-width="2.4"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.3" fill="#F4EBD2"/>`;}
     else if(night){g+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="9" fill="#F4EBD2" stroke="${DAYHEX[c.day]}" stroke-width="2.6"/><path d="M ${x.toFixed(1)} ${(y-15).toFixed(1)} l 6.5 6.5 l -6.5 6.5 l -6.5 -6.5 z" fill="${DAYHEX[c.day]}" stroke="#F4EBD2" stroke-width="1.2"/>`;}
     else{g+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5.2" fill="#F4EBD2" stroke="#2A241C" stroke-width="1.6"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.9" fill="#2A241C"/>`;}
-    const left=["Salina","Wichita","Oklahoma City","Little Rock"].includes(c.n);
-    const lx=left?x-13:x+13;const anc=left?"end":"start";
-    const big=term||night;const fs=big?15:12.5;const fill=big?"#872820":"#2A241C";const fw=big?"700":"500";
-    const fam=big?"Alfa Slab One, serif":"Spectral, serif";const fst=(!big)?"italic":"normal";
-    g+=`<text x="${lx.toFixed(1)}" y="${(y+(night?-16:4)).toFixed(1)}" text-anchor="${night?'middle':anc}" font-family="${fam}" font-style="${fst}" font-weight="${fw}" font-size="${fs}" fill="${fill}" paint-order="stroke" stroke="#EFE6CC" stroke-width="3.2">${big?c.n.toUpperCase():c.n}</text>`;
-    if(night) g+=`<text x="${x.toFixed(1)}" y="${(y-31).toFixed(1)}" text-anchor="middle" font-family="Saira Condensed,sans-serif" font-size="9" letter-spacing="2" fill="${DAYHEX[c.day]}" paint-order="stroke" stroke="#EFE6CC" stroke-width="2.4">NIGHT ${c.night}</text>`;
     g+=`</g>`;s+=g;
+    if(term){const lt=c.kind==="start";const tx=lt?x-12:x+12;const ax=lt?"end":"start";
+      s+=`<text x="${tx.toFixed(1)}" y="${(y+5).toFixed(1)}" text-anchor="${ax}" font-family="Alfa Slab One,serif" font-size="16" fill="#872820" paint-order="stroke" stroke="#F4EBD2" stroke-width="3.4" style="pointer-events:none">${c.n.toUpperCase()}</text>`;}
+    else if(night){Ls.push({ax:x-11,ay:y,text:c.n.toUpperCase(),color:"#872820",size:15,weight:700,fam:"Alfa Slab One, serif",fst:"normal",dir:-1,badge:"NIGHT "+c.night,bcolor:DAYHEX[c.day]});}
+    else{Rs.push({ax:x+9,ay:y,text:c.n,color:"#2A241C",size:12.5,weight:500,fam:"Spectral, serif",fst:"italic",dir:1});}
   });
+  function placeSide(arr){arr.sort((a,b)=>a.ay-b.ay);let lastY=-1e9;const GAP=18;
+    arr.forEach(o=>{let ly=o.ay;if(ly<lastY+GAP)ly=lastY+GAP;lastY=ly;
+      const tx=o.ax+(o.dir>0?5:-5);const anchor=o.dir>0?"start":"end";
+      s+=`<line x1="${o.ax.toFixed(1)}" y1="${o.ay.toFixed(1)}" x2="${o.ax.toFixed(1)}" y2="${ly.toFixed(1)}" stroke="#9b8a63" stroke-width=".7"/>`;
+      if(o.badge)s+=`<text x="${tx.toFixed(1)}" y="${(ly-12).toFixed(1)}" text-anchor="${anchor}" font-family="Saira Condensed,sans-serif" font-size="9" letter-spacing="2" fill="${o.bcolor}" paint-order="stroke" stroke="#EFE6CC" stroke-width="2.4" style="pointer-events:none">${o.badge}</text>`;
+      s+=`<text x="${tx.toFixed(1)}" y="${(ly+o.size*0.34).toFixed(1)}" text-anchor="${anchor}" font-family="${o.fam}" font-style="${o.fst}" font-weight="${o.weight}" font-size="${o.size}" fill="${o.color}" paint-order="stroke" stroke="#EFE6CC" stroke-width="3" style="pointer-events:none">${o.text}</text>`;});}
+  placeSide(Ls);placeSide(Rs);
 
   // border + corners
   s+=`<rect x="9" y="9" width="${W2-18}" height="${H2-18}" fill="none" stroke="#5c4f33" stroke-width="2.5"/>`;
@@ -412,12 +411,31 @@ function dayBBox(d){
   REST.forEach(r=>{if(r.day===d)pts.push(project(r.ll));});
   let mnx=1e9,mny=1e9,mxx=-1e9,mxy=-1e9;
   pts.forEach(p=>{mnx=Math.min(mnx,p[0]);mny=Math.min(mny,p[1]);mxx=Math.max(mxx,p[0]);mxy=Math.max(mxy,p[1]);});
-  let x=mnx-70,y=mny-60,w=(mxx-mnx)+140,h=(mxy-mny)+120;
-  // lock to the plate's aspect ratio so the map box never changes size (no scroll);
-  // skinny legs like Day 1 just get extra side margin.
+  let cx=(mnx+mxx)/2, cy=(mny+mxy)/2, w=(mxx-mnx), h=(mxy-mny);
+  // generous breathing room so the day's stops aren't crammed together
+  w+=260; h+=220;
+  // lock to the plate's aspect ratio so the map box never changes size (no scroll)
   const AR=W2/H2;
-  if(w/h<AR){const nw=h*AR;x-=(nw-w)/2;w=nw;} else {const nh=w/AR;y-=(nh-h)/2;h=nh;}
-  return [x,y,w,h];
+  if(w/h<AR){ w=h*AR; } else { h=w/AR; }
+  // clamp the zoom — never tighter than ~1.3x — so labels stay readable, never a blob
+  const minW=W2/1.3;
+  if(w<minW){ const f=minW/w; w*=f; h*=f; }
+  return [cx-w/2, cy-h/2, w, h];
+}
+function dayStops(d){
+  const cityIdx=[];CITIES.forEach((c,i)=>{if(c.day===d)cityIdx.push(i);});
+  const o = cityIdx[0]>0? P[cityIdx[0]-1] : P[cityIdx[0]];
+  const endP = P[cityIdx[cityIdx.length-1]];
+  const vx=endP[0]-o[0], vy=endP[1]-o[1];
+  const items=[];
+  cityIdx.forEach(i=>{const c=CITIES[i];
+    const ico=c.kind==='night'?'🏨':(c.kind==='end'?'🏁':(c.kind==='start'?'🚩':'📍'));
+    items.push({ico,n:c.n+', '+c.st,sub:c.kind==='night'?('Night '+c.night):'',p:P[i]});});
+  FUEL.forEach(f=>{if(f.day===d)items.push({ico:'⛽',n:f.lab,sub:'gas',p:project(f.ll)});});
+  REST.forEach(r=>{if(r.day===d)items.push({ico:'🚻',n:r.lab,sub:'rest',p:project(r.ll)});});
+  items.forEach(it=>{it.s=(it.p[0]-o[0])*vx+(it.p[1]-o[1])*vy;});
+  items.sort((a,b)=>a.s-b.s);
+  return items;
 }
 function tweenVB(to,ms){
   const svg=document.querySelector('#mapBox svg');if(!svg)return;
@@ -434,7 +452,9 @@ document.getElementById('dayfilter').addEventListener('click',e=>{const b=e.targ
   tweenVB(curDay==="all"?[0,0,W2,H2]:dayBBox(+curDay),650);
   if(curDay==="all") overviewCard();
   else{const s=DAY_SUMMARY[+curDay];
-    document.getElementById('card').innerHTML=`<div class="chead"><div class="kick">Day ${curDay} · zoomed in</div><h2>${s.t}</h2><div class="meta">${s.m}</div></div><div class="cbody"><ul><li>${s.d}</li></ul><p class="hint">Totals below now show Day ${curDay} only · tap All to zoom back out →</p></div>`;}
+    const items=dayStops(+curDay);
+    const list=items.map(it=>`<div class="ovd"><span class="nm">${it.ico} ${it.n}</span>${it.sub?`<span class="rt">${it.sub}</span>`:''}</div>`).join('');
+    document.getElementById('card').innerHTML=`<div class="chead"><div class="kick">Day ${curDay} · zoomed in</div><h2>${s.t}</h2><div class="meta">${s.m}</div></div><div class="cbody"><ul><li>${s.d}</li></ul><h3>This Day's Stops, In Order</h3>${list}<p class="hint">Totals below show Day ${curDay} only · tap All to zoom back out →</p></div>`;}
 });
 
 overviewCard();
