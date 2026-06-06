@@ -432,19 +432,28 @@ function dayBBox(d){
   if(w<minW){ const f=minW/w; w*=f; h*=f; }
   return [cx-w/2, cy-h/2, w, h];
 }
+function haversine(a,b){const R=3958.8,tR=Math.PI/180;const dLa=(b[1]-a[1])*tR,dLo=(b[0]-a[0])*tR;
+  const h=Math.sin(dLa/2)**2+Math.cos(a[1]*tR)*Math.cos(b[1]*tR)*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
 function dayStops(d){
   const cityIdx=[];CITIES.forEach((c,i)=>{if(c.day===d)cityIdx.push(i);});
-  const o = cityIdx[0]>0? P[cityIdx[0]-1] : P[cityIdx[0]];
+  const oIdx = cityIdx[0]>0? cityIdx[0]-1 : cityIdx[0];
+  const o = P[oIdx], oll = CITIES[oIdx].ll;
   const endP = P[cityIdx[cityIdx.length-1]];
   const vx=endP[0]-o[0], vy=endP[1]-o[1];
   const items=[];
   cityIdx.forEach(i=>{const c=CITIES[i];
     const ico=c.kind==='night'?'🏨':(c.kind==='end'?'🏁':(c.kind==='start'?'🚩':'📍'));
-    items.push({ico,n:c.n+', '+c.st,sub:c.kind==='night'?('Night '+c.night):'',p:P[i]});});
-  FUEL.forEach(f=>{if(f.day===d)items.push({ico:'⛽',n:f.lab,sub:'gas',p:project(f.ll)});});
-  REST.forEach(r=>{if(r.day===d)items.push({ico:'🚻',n:r.lab,sub:'rest',p:project(r.ll)});});
+    items.push({ico,n:c.n+', '+c.st,sub:c.kind==='night'?('Night '+c.night):'',p:P[i],ll:c.ll});});
+  FUEL.forEach(f=>{if(f.day===d)items.push({ico:'⛽',n:f.lab,sub:'gas',p:project(f.ll),ll:f.ll});});
+  REST.forEach(r=>{if(r.day===d)items.push({ico:'🚻',n:r.lab,sub:'rest',p:project(r.ll),ll:r.ll});});
   items.forEach(it=>{it.s=(it.p[0]-o[0])*vx+(it.p[1]-o[1])*vy;});
   items.sort((a,b)=>a.s-b.s);
+  // cumulative road-miles into the day: straight-line distances scaled to the day's known total
+  let prev=oll, raw=0;
+  items.forEach(it=>{raw+=haversine(prev,it.ll); it.raw=raw; prev=it.ll;});
+  const tot=items.length?items[items.length-1].raw:1;
+  const dm=(DAY_TOTALS[d]?DAY_TOTALS[d].mi:0), f=tot>0?dm/tot:0;
+  items.forEach(it=>{it.mi=Math.round(it.raw*f);});
   return items;
 }
 function tweenVB(to,ms){
@@ -463,8 +472,8 @@ document.getElementById('dayfilter').addEventListener('click',e=>{const b=e.targ
   if(curDay==="all") overviewCard();
   else{const s=DAY_SUMMARY[+curDay];
     const items=dayStops(+curDay);
-    const list=items.map(it=>`<div class="ovd"><span class="nm">${it.ico} ${it.n}</span>${it.sub?`<span class="rt">${it.sub}</span>`:''}</div>`).join('');
-    document.getElementById('card').innerHTML=`<div class="chead"><div class="kick">Day ${curDay} · zoomed in</div><h2>${s.t}</h2><div class="meta">${s.m}</div></div><div class="cbody"><ul><li>${s.d}</li></ul><h3>This Day's Stops, In Order</h3>${list}<p class="hint">Totals below show Day ${curDay} only · tap All to zoom back out →</p></div>`;}
+    const list=items.map(it=>`<div class="ovd"><span class="nm">${it.ico} ${it.n}${it.sub?` <span style="color:var(--rule);font-weight:400;font-size:11px">· ${it.sub}</span>`:''}</span><span class="rt">${it.mi} mi</span></div>`).join('');
+    document.getElementById('card').innerHTML=`<div class="chead"><div class="kick">Day ${curDay} · zoomed in</div><h2>${s.t}</h2><div class="meta">${s.m}</div></div><div class="cbody"><ul><li>${s.d}</li></ul><h3>This Day's Stops · miles into the day</h3>${list}<p class="hint">Totals below show Day ${curDay} only · tap All to zoom back out →</p></div>`;}
 });
 
 overviewCard();
