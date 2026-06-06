@@ -135,7 +135,7 @@ function centroid(r){let x=0,y=0;r.forEach(p=>{x+=p[0];y+=p[1];});return [x/r.le
 /* ---------- route + stop data ---------- */
 const CITIES=[
  {n:"Salina",st:"KS",ll:[-97.61,38.84],kind:"start",day:1,
-   info:{kick:"Departure · Day 1",meta:"Friday, July 3, 2026 · July 4th weekend",blurb:"Top off both tanks before you roll. Aim for a late-morning start so the baby naps through the first stretch. Heads-up: this is the Fourth of July weekend — book hotels early, they fill up."}},
+   info:{kick:"Departure · Day 1",meta:"Friday, July 3, 2026 · July 4th weekend",blurb:"Top off both tanks before you roll. Aim for a late-morning start so the baby naps through the first stretch. Heads-up: this is the Fourth of July weekend — book hotels early, they fill up. Roster: Tacoma + trailer, Land Cruiser, and Jimmy's 2016 Accent (he takes the 2nd room)."}},
  {n:"Wichita",st:"KS",ll:[-97.34,37.69],day:1,
    info:{kick:"Day 1 · waypoint",meta:"~90 mi in · I-135",
      fuel:["<b>QuikTrip, Wichita</b> — last KS fuel, spotless restrooms, big lot"],
@@ -237,13 +237,13 @@ function shieldNum(h){return h.replace(/[^0-9]/g,'');}
 
 function overviewCard(){
   let h=`<div class="chead"><div class="kick">Trip Ledger & Index of Stops</div>
-    <h2>Salina → Leesburg</h2><div class="meta">Depart Fri Jul 3 (🎆 Jul 4th wknd) · 4 days · 3 nights · 🐾 cats · towing the T-bucket</div></div><div class="cbody">`;
+    <h2>Salina → Leesburg</h2><div class="meta">Depart Fri Jul 3 (🎆 Jul 4th wknd) · 4 days · 3 nights · 🐾 cats · 3 vehicles (incl. Jimmy's Accent) · towing the T-bucket</div></div><div class="cbody">`;
   h+=`<h3>The Drive, By Day</h3>`;
   for(let d=1;d<=4;d++){const s=DAY_SUMMARY[d];
     h+=`<div class="ovd"><span class="nm" style="border-left:4px solid ${DAYHEX[d]};padding-left:8px">Day ${d}: ${s.t}</span><span class="rt">${s.m.split(' · ')[0]}</span></div>`;}
   h+=`<h3>Estimated Cost</h3><ul>
-    <li><b>Fuel</b> — both vehicles <span style="float:right;font-weight:700">~$645</span></li>
-    <li><b>Hotels</b> — 3 nights × 2 rooms <span style="float:right;font-weight:700">~$968</span></li>
+    <li><b>Fuel</b> — your 2 vehicles <span style="float:right;font-weight:700">~$645</span></li><li><b>Jimmy's Accent</b> — own gas (not in total) <span style="float:right;font-weight:700">~$170</span></li>
+    <li><b>Hotels</b> — 3 nts × 2 rooms (1 family + 1 Jimmy) <span style="float:right;font-weight:700">~$968</span></li>
     <li><b>Tolls</b> <span style="float:right;font-weight:700">$0</span></li>
     <li><b>Trip total</b> (fuel + hotels) <span style="float:right;font-weight:700;color:var(--red)">~$1,613</span></li></ul>`;
   h+=`<h3>How To Read This Plate</h3><ul>

@@ -7,7 +7,7 @@ Session date: June 4–5, 2026 · Move date: **Friday, July 3, 2026** (🎆 Inde
 ## 1. What we set out to do
 Plan the full move: fastest/easiest route for a convoy towing the T-bucket, broken into 4 days / 3 nights, with gas, hotels, food, and rest stops — then make it fun, like an old AAA TripTik / Rand McNally atlas.
 
-**Convoy:** 2018 Tacoma TRD Off-Road (towing a 2,300 lb T-bucket roadster) + 2024 Land Cruiser. One 10-month-old **and cats** aboard. Staying in **Leesburg, FL** (34407 Shadewood Circle) the first month before Winter Park.
+**Convoy (3 vehicles):** 2018 Tacoma TRD Off-Road (towing a 2,300 lb T-bucket roadster) + 2024 Land Cruiser + **Jimmy's 2016 Hyundai Accent**. One 10-month-old **and cats** aboard. Staying in **Leesburg, FL** (34407 Shadewood Circle) the first month before Winter Park.
 
 ---
 
@@ -31,7 +31,8 @@ Plan the full move: fastest/easiest route for a convoy towing the T-bucket, brok
 ---
 
 ## 3. Costs (estimates)
-- **Fuel (both vehicles): ~$645** — Tacoma towing ~$400 (~15 mpg), Land Cruiser ~$245 (~24.5 mpg). Budget $650–700.
+- **Fuel (your 2 vehicles): ~$645** — Tacoma towing ~$400 (~15 mpg), Land Cruiser ~$245 (~24.5 mpg). Budget $650–700.
+- **Jimmy's 2016 Accent: ~$170** (~35 mpg) — he fuels his own; not in your total.
 - **Hotels (3 nts × 2 rooms): ~$968** — July 4th-weekend rates (run higher; book early).
 - **Pet fees: ~$50–75 per night** (cats) — extra, not in the total.
 - **Tolls: $0**
@@ -41,7 +42,7 @@ Plan the full move: fastest/easiest route for a convoy towing the T-bucket, brok
 ---
 
 ## 4. Hotels — CAT-FRIENDLY picks, July 4th-weekend rates (not yet booked)
-All Marriott/Hilton family, **all confirmed cat-friendly AND trailer-checked**, **on Hotels.com (use your points)**. Courtyards dropped (not pet-friendly). Trailer note: none are RV resorts, so plan to take the back/end row and arrive before evening. Defaults (one per night), holiday rates:
+All Marriott/Hilton family, **all confirmed cat-friendly AND trailer-checked**, **on Hotels.com (use your points)**. Courtyards dropped (not pet-friendly). Trailer note: none are RV resorts, so plan to take the back/end row and arrive before evening. Defaults (one per night), holiday rates — **the 2 rooms = 1 family + 1 for Jimmy**:
 
 - **Night 1 (Fri Jul 3) – Oklahoma City:** **Home2 Suites OKC Airport** — ~$152 *(🐾 cats; 🚛 best parking of the trip — markets RV/bus/truck parking, all-suite + kitchen)*
   - alts: TownePlace Suites OKC ($150, flat lot), Residence Inn OKC ($168, lot fills early)
