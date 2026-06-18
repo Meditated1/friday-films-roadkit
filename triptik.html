@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Live TripTik — Mockup</title>
+<title>Live TripTik</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Spectral:wght@400;500;600;700&family=Saira+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -108,7 +108,7 @@
 </style>
 </head>
 <body>
-<div class="cap">Live TripTik — <b>mockup</b>. Tap ▶ to simulate the drive. In the real app this dot moves with your phone's GPS.</div>
+<div class="cap">Live TripTik — the T-bucket follows your <b>real GPS location</b> as you drive. Tap ▶ for a demo drive if location is off.</div>
 
 <div class="phone">
   <div class="notch"></div>
@@ -155,7 +155,8 @@
         <button class="ghost" id="reset">↺ Reset</button>
       </div>
       <div class="speed"><span>Sim speed</span><input type="range" id="spd" min="1" max="6" value="3"><span id="spdv">3×</span></div>
-      <div class="demo">Demo mode · simulated GPS &nbsp;·&nbsp; Real version uses <b>navigator.geolocation</b> (needs HTTPS hosting — e.g. free GitHub Pages)</div>
+      <div class="demo" id="gpsmsg" style="display:none"></div>
+      <div class="demo">Live GPS tracking · <b>navigator.geolocation</b> &nbsp;·&nbsp; ▶ runs a demo drive if location is off</div>
       <div class="brand">FryDay Films<small>Road Atlas Series · 2026 Centennial Edition</small></div>
     </div>
   </div>
@@ -164,22 +165,22 @@
 <script>
 // cumulative miles along the route; type drives the icon/checkoff
 const STOPS=[
- {mi:0,   n:"Salina, KS",      typ:"start", day:1, ico:"🚩", s:"Depart — top off all 3 vehicles", why:"Tacoma + trailer, Land Cruiser, and Jimmy's 2016 Hyundai Accent. Cats + baby aboard."},
- {mi:95,  n:"Wichita, KS",     typ:"fuel",  day:1, ico:"⛽", s:"QuikTrip · I-135", why:"QuikTrip — first diaper stop, spotless restrooms, easy on/off I-135."},
- {mi:225, n:"Perry, OK",       typ:"fuel",  day:1, ico:"⛽", s:"Love's · I-35 Exit 185", why:"Love's — top off BOTH vehicles. Oklahoma has the cheapest gas of the trip ($3.74)."},
- {mi:290, n:"Oklahoma City, OK",typ:"night", day:1, ico:"🛏️", s:"NIGHT 1 · Home2 Suites OKC", why:"Home2 Suites at Meridian — 🐾 cats OK, all-suite + kitchen. ~$152/rm (Jul 4th wknd)."},
- {mi:410, n:"Henryetta, OK",   typ:"fuel",  day:2, ico:"⛽", s:"Love's · I-40 Exit 237", why:"Love's — cheap OK fuel before Arkansas. Stretch the baby's legs."},
- {mi:530, n:"Alma, AR",        typ:"food",  day:2, ico:"🍽️", s:"Cracker Barrel · I-40 Exit 13", why:"Cracker Barrel — mid-day sit-down reset. Big lot, high chairs."},
- {mi:590, n:"Little Rock, AR", typ:"fuel",  day:2, ico:"⛽", s:"Pilot/Flying J · I-40 Exit 161", why:"Pilot — huge truck lot, easy with the trailer."},
- {mi:745, n:"West Memphis, AR",typ:"fuel",  day:2, ico:"⛽", s:"Love's · I-40 Exit 280", why:"Love's — last Arkansas fuel, fill before Tennessee prices."},
- {mi:755, n:"Memphis, TN",     typ:"night", day:2, ico:"🛏️", s:"NIGHT 2 · Hilton Garden Inn Wolfchase", why:"Quiet east side, I-40 Exit 16. 🐾 cats OK, indoor pool. ~$176/rm (Sat Jul 4)."},
- {mi:865, n:"Tupelo, MS",      typ:"food",  day:3, ico:"🍽️", s:"Cracker Barrel + Love's · I-22", why:"Fuel cheap (MS $3.81) and lunch — mid-leg hub."},
- {mi:985, n:"Birmingham, AL",  typ:"fuel",  day:3, ico:"⛽", s:"Pilot · I-65", why:"Top off, turn south on I-65. Chick-fil-A nearby if hungry."},
- {mi:1085,n:"Montgomery, AL",  typ:"night", day:3, ico:"🛏️", s:"NIGHT 3 · TownePlace EastChase", why:"TownePlace — 🐾 cats OK, 🚛 flat easy lot for the trailer, suite+kitchen. ~$156/rm (Jul 4th wknd)."},
- {mi:1200,n:"Dothan, AL",      typ:"food",  day:4, ico:"🍽️", s:"Cracker Barrel · US-231", why:"First real meal of the day. Last Alabama fuel before Florida."},
- {mi:1330,n:"Tallahassee, FL", typ:"rest",  day:4, ico:"🚻", s:"FL Welcome Center · I-10", why:"Clean 24/7 restrooms + stretch area entering Florida."},
- {mi:1410,n:"Lake City, FL",   typ:"fuel",  day:4, ico:"⛽", s:"Love's · I-10/I-75 Exit 427", why:"Last big stop. Turn south on I-75 for the final push."},
- {mi:1555,n:"Leesburg, FL",    typ:"end",   day:4, ico:"🏁", s:"HOME · 34407 Shadewood Cir, 34788", why:"34407 Shadewood Circle, Leesburg, FL 34788 — via I-75 Exit 329. Toll-free all the way. You made it."}
+ {mi:0,   lat:38.8403, lng:-97.6114, n:"Salina, KS",      typ:"start", day:1, ico:"🚩", s:"Depart — top off all 3 vehicles", why:"Tacoma + trailer, Land Cruiser, and Jimmy's 2016 Hyundai Accent. Cats + baby aboard."},
+ {mi:95,  lat:37.6872, lng:-97.3301, n:"Wichita, KS",     typ:"fuel",  day:1, ico:"⛽", s:"QuikTrip · I-135", why:"QuikTrip — first diaper stop, spotless restrooms, easy on/off I-135."},
+ {mi:225, lat:36.2889, lng:-97.2889, n:"Perry, OK",       typ:"fuel",  day:1, ico:"⛽", s:"Love's · I-35 Exit 185", why:"Love's — top off BOTH vehicles. Oklahoma has the cheapest gas of the trip ($3.74)."},
+ {mi:290, lat:35.4934, lng:-97.5897, n:"Oklahoma City, OK",typ:"night", day:1, ico:"🛏️", s:"NIGHT 1 · Home2 Suites OKC", why:"Home2 Suites at Meridian — 🐾 cats OK, all-suite + kitchen. ~$152/rm (Jul 4th wknd)."},
+ {mi:410, lat:35.4395, lng:-95.9819, n:"Henryetta, OK",   typ:"fuel",  day:2, ico:"⛽", s:"Love's · I-40 Exit 237", why:"Love's — cheap OK fuel before Arkansas. Stretch the baby's legs."},
+ {mi:530, lat:35.4787, lng:-94.2213, n:"Alma, AR",        typ:"food",  day:2, ico:"🍽️", s:"Cracker Barrel · I-40 Exit 13", why:"Cracker Barrel — mid-day sit-down reset. Big lot, high chairs."},
+ {mi:590, lat:34.7465, lng:-92.2896, n:"Little Rock, AR", typ:"fuel",  day:2, ico:"⛽", s:"Pilot/Flying J · I-40 Exit 161", why:"Pilot — huge truck lot, easy with the trailer."},
+ {mi:745, lat:35.1465, lng:-90.1845, n:"West Memphis, AR",typ:"fuel",  day:2, ico:"⛽", s:"Love's · I-40 Exit 280", why:"Love's — last Arkansas fuel, fill before Tennessee prices."},
+ {mi:755, lat:35.2009, lng:-89.7984, n:"Memphis, TN",     typ:"night", day:2, ico:"🛏️", s:"NIGHT 2 · Hilton Garden Inn Wolfchase", why:"Quiet east side, I-40 Exit 16. 🐾 cats OK, indoor pool. ~$176/rm (Sat Jul 4)."},
+ {mi:865, lat:34.2576, lng:-88.7034, n:"Tupelo, MS",      typ:"food",  day:3, ico:"🍽️", s:"Cracker Barrel + Love's · I-22", why:"Fuel cheap (MS $3.81) and lunch — mid-leg hub."},
+ {mi:985, lat:33.5186, lng:-86.8104, n:"Birmingham, AL",  typ:"fuel",  day:3, ico:"⛽", s:"Pilot · I-65", why:"Top off, turn south on I-65. Chick-fil-A nearby if hungry."},
+ {mi:1085,lat:32.3637, lng:-86.1666, n:"Montgomery, AL",  typ:"night", day:3, ico:"🛏️", s:"NIGHT 3 · TownePlace EastChase", why:"TownePlace — 🐾 cats OK, 🚛 flat easy lot for the trailer, suite+kitchen. ~$156/rm (Jul 4th wknd)."},
+ {mi:1200,lat:31.2232, lng:-85.3905, n:"Dothan, AL",      typ:"food",  day:4, ico:"🍽️", s:"Cracker Barrel · US-231", why:"First real meal of the day. Last Alabama fuel before Florida."},
+ {mi:1330,lat:30.4383, lng:-84.2807, n:"Tallahassee, FL", typ:"rest",  day:4, ico:"🚻", s:"FL Welcome Center · I-10", why:"Clean 24/7 restrooms + stretch area entering Florida."},
+ {mi:1410,lat:30.1897, lng:-82.6393, n:"Lake City, FL",   typ:"fuel",  day:4, ico:"⛽", s:"Love's · I-10/I-75 Exit 427", why:"Last big stop. Turn south on I-75 for the final push."},
+ {mi:1555,lat:28.8497, lng:-81.8003, n:"Leesburg, FL",    typ:"end",   day:4, ico:"🏁", s:"HOME · 34407 Shadewood Cir, 34788", why:"34407 Shadewood Circle, Leesburg, FL 34788 — via I-75 Exit 329. Toll-free all the way. You made it."}
 ];
 /* roadside trivia — keyed by stop, shown when you're rolling through that area */
 const TRIVIA={
@@ -198,9 +199,11 @@ const TRIVIA={
 const TOTAL=1555, MPH=55;
 const DAYHEX={1:"#B0392B",2:"#2E6B8A",3:"#6E7A33",4:"#C2461C"};
 let mile=0, playing=false, raf=null, speed=3;
+// curMph drives the ETA: demo uses the planned MPH, live GPS uses pos.coords.speed
+let curMph=MPH;
 
 const $=id=>document.getElementById(id);
-function fmtETA(mi){const m=Math.round(mi/MPH*60); if(m<60)return "~"+m+" min"; const h=Math.floor(m/60),mm=m%60; return "~"+h+" hr"+(mm?" "+mm+" min":"");}
+function fmtETA(mi){const m=Math.round(mi/(curMph||MPH)*60); if(m<60)return "~"+m+" min"; const h=Math.floor(m/60),mm=m%60; return "~"+h+" hr"+(mm?" "+mm+" min":"");}
 
 const PAGE_SIZE=5; let curPage=-1;
 function buildTicks(){let tk="";STOPS.forEach(s=>{tk+=`<div class="tick" style="left:${(s.mi/TOTAL*100).toFixed(2)}%"></div>`;});$("ticks").innerHTML=tk;}
@@ -263,22 +266,106 @@ function render(){
 function tick(){
   if(!playing)return;
   mile+=speed*2.4; // sim pace
+  curMph=MPH;      // demo ETA uses the planned cruising speed
   if(mile>=TOTAL){mile=TOTAL; playing=false; $("play").innerHTML="▶ Replay";}
   render();
   if(playing) raf=requestAnimationFrame(()=>setTimeout(tick,60));
 }
 $("play").addEventListener("click",()=>{
+  // ▶ is the fallback DEMO toggle — switching to demo pauses live GPS
+  demoMode=true; stopGps();
   if(mile>=TOTAL){mile=0;}
   playing=!playing;
   $("play").innerHTML=playing?"⏸ Pause":"▶ Simulate drive";
+  setGpsMsg("Demo mode — playing a simulated drive. Tap ↺ Reset to return to live GPS.");
   if(playing) tick();
 });
-$("reset").addEventListener("click",()=>{playing=false;mile=0;$("play").innerHTML="▶ Simulate drive";render();});
+$("reset").addEventListener("click",()=>{
+  playing=false; mile=0; curMph=MPH; demoMode=false;
+  $("play").innerHTML="▶ Simulate drive";
+  render();
+  startGps(); // resume real tracking
+});
 $("spd").addEventListener("input",e=>{speed=+e.target.value;$("spdv").textContent=speed+"×";});
 // live clock
 setInterval(()=>{const d=new Date();$("clock").textContent=d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});},1000);
 
+/* ===== Live GPS tracking ===== */
+const R_MI=3958.7613;                 // earth radius in miles
+const MPS_TO_MPH=2.2369362921;
+let watchId=null, gpsIndex=1, demoMode=false, wakeLock=null;
+
+function haversine(lat1,lon1,lat2,lon2){
+  const toR=d=>d*Math.PI/180;
+  const dLat=toR(lat2-lat1), dLon=toR(lon2-lon1);
+  const a=Math.sin(dLat/2)**2 + Math.cos(toR(lat1))*Math.cos(toR(lat2))*Math.sin(dLon/2)**2;
+  return 2*R_MI*Math.asin(Math.sqrt(a));
+}
+
+function setGpsMsg(txt){const el=$("gpsmsg"); if(!el)return; el.innerHTML=txt||""; el.style.display=txt?"block":"none";}
+
+function onGps(pos){
+  if(demoMode) return;            // demo has taken over
+  setGpsMsg("");                  // clear any prior error
+  const {latitude,longitude,speed}=pos.coords;
+  // distance (mi) to the stop we're currently heading toward
+  let d=haversine(latitude,longitude,STOPS[gpsIndex].lat,STOPS[gpsIndex].lng);
+  // auto-advance: within ~0.5 mi we've reached it — aim at the following stop
+  while(gpsIndex<STOPS.length-1 && d<=0.5){
+    gpsIndex++;
+    d=haversine(latitude,longitude,STOPS[gpsIndex].lat,STOPS[gpsIndex].lng);
+  }
+  // total miles driven = cumulative mile of the next stop minus the distance still to go,
+  // clamped to this leg so the progress bar stays sane
+  const legStart=STOPS[gpsIndex-1]?STOPS[gpsIndex-1].mi:0;
+  mile=Math.min(STOPS[gpsIndex].mi, Math.max(legStart, STOPS[gpsIndex].mi-d));
+  // ETA speed: real GPS speed when available, otherwise assume 60 mph
+  curMph=(speed!=null && speed>0) ? speed*MPS_TO_MPH : 60;
+  render();
+}
+
+function onGpsError(err){
+  if(demoMode) return;
+  const msg = err && err.code===1
+    ? "📍 Location permission denied — tap ▶ to run the demo instead."
+    : "📍 Live location unavailable — tap ▶ to run the demo instead.";
+  setGpsMsg(msg);
+}
+
+function startGps(){
+  if(demoMode) return;
+  if(!("geolocation" in navigator)){
+    setGpsMsg("📍 This device can't share location — tap ▶ to run the demo instead.");
+    return;
+  }
+  if(watchId!==null) navigator.geolocation.clearWatch(watchId);
+  gpsIndex=1;
+  watchId=navigator.geolocation.watchPosition(onGps,onGpsError,
+    {enableHighAccuracy:true, maximumAge:5000, timeout:10000});
+  requestWakeLock();
+}
+
+function stopGps(){
+  if(watchId!==null){navigator.geolocation.clearWatch(watchId); watchId=null;}
+  releaseWakeLock();
+}
+
+/* ===== Screen Wake Lock — keep the phone awake while tracking ===== */
+async function requestWakeLock(){
+  if(!("wakeLock" in navigator)) return;
+  try{
+    wakeLock=await navigator.wakeLock.request("screen");
+    wakeLock.addEventListener("release",()=>{wakeLock=null;});
+  }catch(e){ /* denied or not allowed — non-fatal */ }
+}
+function releaseWakeLock(){ if(wakeLock){ wakeLock.release().catch(()=>{}); wakeLock=null; } }
+// re-acquire the lock when returning to the tab (browsers drop it on hide)
+document.addEventListener("visibilitychange",()=>{
+  if(document.visibilityState==="visible" && watchId!==null && !wakeLock) requestWakeLock();
+});
+
 buildTicks(); buildRings(); render();
+startGps();
 </script>
 </body>
 </html>
