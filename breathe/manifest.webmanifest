@@ -1,0 +1,15 @@
+{
+  "name": "breathe, as you wish",
+  "short_name": "breathe",
+  "description": "A small, calm breathing app — a zen pond that fills as you inhale and a deep Tide tone, with a small library of breathing patterns.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#181A16",
+  "theme_color": "#181A16",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
